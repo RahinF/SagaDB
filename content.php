@@ -1,8 +1,8 @@
 <?php include 'condb.php'?>
 
-<?php function callrow($row, $con, $select, $join, $joinOnA, $joinOnB){
+<?php function callrow($row, $con, $select, $joinTable, $joinOnA, $joinOnB){
 
-$stmt = $con->prepare("SELECT ".$select." FROM styles JOIN ".$join." ON ".$joinOnA." = ".$joinOnB." WHERE styles.ID = ?");
+$stmt = $con->prepare("SELECT ".$select." FROM styles JOIN ".$joinTable." ON ".$joinOnA." = ".$joinOnB." WHERE styles.ID = ?");
 $stmt->bind_param('i', $row['ID']);
 $stmt->execute();
 $stmt->bind_result($q);
@@ -33,15 +33,18 @@ while ($row = mysqli_fetch_assoc($result)){
     echo '<td>'.$row['Name'].'</td>';
     echo '<td>'.$row['Title'].'</td>';
     echo '<td>'.$row['Rarity'].'</td>';
-    echo '<td>';
-    callrow($row, $con, $select = "roles.Name", $join = 'roles', $joinOnA = 'styles.Role', $joinOnB = 'roles.ID');
-    echo  '</td>';
-    echo '<td>';
-    callrow($row, $con, $select = "types.Name", $join = 'types', $joinOnA = 'styles.Type', $joinOnB = 'types.ID');
-    echo  '</td>';
-    echo '<td>';
-    callrow($row, $con, $select = "spellaffinity.Element", $join = 'spellaffinity', $joinOnA = 'styles.spellaffinity', $joinOnB = 'spellaffinity.ID');
-    echo  '</td>';
+
+    for ($i = 0; $i < 2; $i++){
+        echo '<td>';
+        $tables = ['roles', 'types', 'spellaffinity'];
+        $select = $tables[$i].'.name';
+        $joinTable = $tables[$i];
+        $joinOnA = 'styles.'.$tables[$i];
+        $joinOnB = $tables[$i].'.id';
+        callrow($row, $con, $select, $joinTable, $joinOnA, $joinOnB);
+        echo  '</td>';
+    }
+    
     echo '</tr>';
 }
 ?>
