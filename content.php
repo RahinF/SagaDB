@@ -34,7 +34,7 @@ while ($row = mysqli_fetch_assoc($result)){
     echo '<td>'.$row['Title'].'</td>';
     echo '<td>'.$row['Rarity'].'</td>';
 
-    for ($i = 0; $i < 2; $i++){
+    for ($i = 0; $i < 3; $i++){
         echo '<td>';
         $tables = ['roles', 'types', 'spellaffinity'];
         $select = $tables[$i].'.name';
