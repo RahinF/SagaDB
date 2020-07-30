@@ -1,27 +1,16 @@
 <?php 
 include 'condb.php';
-
-function getAttName($row, $con){
-    $tables = ['roles', 'types', 'spellaffinity'];
-    for ($i = 0; $i < 3; $i++){
-        $select = $tables[$i].'.name';
-        $joinTable = $tables[$i];
-        $joinA = 'styles.'.$tables[$i];
-        $joinB = $tables[$i].'.id';
-        $stmt = $con->prepare("SELECT ".$select." FROM styles JOIN ".$joinTable." ON ".$joinA." = ".$joinB." WHERE styles.ID = ?");
-        $stmt->bind_param('i', $row['ID']);
-        $stmt->execute();
-        $stmt->bind_result($query);
-        $stmt->fetch();
-        $stmt->close();
-        ?>
-<td>
-    <?= $query?>
-</td>
-<?php 
-    }
-}
+include 'functions.php';
 ?>
+
+<h4>filters</h4>
+<?php
+getAttValue($con, $table = 'roles');
+getAttValue($con, $table = 'spellaffinity');
+getAttValue($con, $table = 'types');
+getAttValue($con, $table = 'rarity'); 
+?>
+
 
 <table>
     <tr>
@@ -45,7 +34,6 @@ while ($row = mysqli_fetch_assoc($result)){
     <tr>
         <td><?= $row['Name']?></td>
         <td><?= $row['Title']?></td>
-        <td><?= $row['Rarity']?></td>
         <?php getAttName($row, $con)?>
     </tr>
     <?php
