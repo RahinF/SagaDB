@@ -1,16 +1,24 @@
 <?php 
 include 'condb.php';
 include 'functions.php';
-?>
 
-<h4>filters</h4>
-<?php
-getAttValue($con, $table = 'roles');
-getAttValue($con, $table = 'spellaffinity');
-getAttValue($con, $table = 'types');
-getAttValue($con, $table = 'rarity'); 
-?>
+// query db
+$sql = "SELECT * FROM styles";
 
+// filters query based on button selection
+// currently only one at a time
+if(!empty($_GET)){
+    $attribute = key($_GET);
+    $id = $_GET[key($_GET)];
+    $sql .= ' WHERE '.$attribute.' = '.$id;
+    unset($_GET);
+}
+
+$result = mysqli_query($con, $sql);
+
+
+include 'filters.php';
+?>
 
 <table>
     <tr>
@@ -24,9 +32,6 @@ getAttValue($con, $table = 'rarity');
 
     <?php 
 
-// query db
-$sql = "SELECT * FROM styles";
-$result = mysqli_query($con, $sql);
 
 // print all rows
 while ($row = mysqli_fetch_assoc($result)){

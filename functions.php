@@ -25,12 +25,10 @@ function getAttName($row, $con){
 
 // gets the names of the values ie role: attacker, def, etc 
 function getAttValue($con, $table){
-    $sql = "SELECT name FROM $table";
+    $sql = "SELECT * FROM $table";
     $result = mysqli_query($con, $sql);
     while ($row = mysqli_fetch_assoc($result)){
-        foreach ($row as $value){
-            echo '<button>'.$value.'</button>';
-        }
+        echo '<button type="submit" name="'.$table.'" value="'.$row['ID'].'">'.$row['Name'].'</button>';
     }   
 }
 
