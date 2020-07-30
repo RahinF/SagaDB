@@ -1,6 +1,7 @@
 <?php 
 include 'condb.php';
 include 'functions.php';
+include 'filters.php';
 
 // query db
 $sql = "SELECT * FROM styles";
@@ -15,9 +16,6 @@ if(!empty($_GET)){
 }
 
 $result = mysqli_query($con, $sql);
-
-
-include 'filters.php';
 ?>
 
 <table>
