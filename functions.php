@@ -33,11 +33,22 @@ function getAttValue($con, $table){
     }   
 }
 
+// generate character list when adding styles
+function genCharList($con){
+    $sql = "SELECT * FROM characters";
+    $result = mysqli_query($con, $sql);
+    
+    echo '<select name="style[characters]" required>';
+    while ($row = mysqli_fetch_assoc($result)){
+        echo '<option value="'.$row['Name'].'">'.$row['Name'].'</option>';
+    }
+    echo '</select>';
+}
+
 // generates style attributes in list on add section
 function genStyleAtt($con){
     $tables = $GLOBALS['tables'];
-    array_unshift($tables,"characters");
-
+    
     for ($i = 0; $i < count($tables); $i++){
     $sql = "SELECT * FROM $tables[$i]";
     $result = mysqli_query($con, $sql);
