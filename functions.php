@@ -42,7 +42,7 @@ function genStyleAtt($con){
     $sql = "SELECT * FROM $tables[$i]";
     $result = mysqli_query($con, $sql);
 
-    echo '<select name="'.$tables[$i].'">';
+    echo '<select name="style['.$tables[$i].']" required>';
     while ($row = mysqli_fetch_assoc($result)){
         echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
     }
@@ -55,7 +55,7 @@ function genCharSeries($con){
         $sql = "SELECT * FROM series";
         $result = mysqli_query($con, $sql);
     
-        echo '<select name="series">';
+        echo '<select name="char[series]" required>';
         while ($row = mysqli_fetch_assoc($result)){
             echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
         }
