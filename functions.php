@@ -25,12 +25,19 @@ function getAttName($row, $con){
 
 
 // gets the names of the values ie role: attacker, def, etc 
-function getAttValue($con, $table){
-    $sql = "SELECT * FROM $table";
+function getAttValue($con){
+    $tables = $GLOBALS['tables'];
+
+    for ($i = 0; $i < count($tables); $i++){
+    $sql = "SELECT * FROM $tables[$i]";
     $result = mysqli_query($con, $sql);
+
+    echo '<div id="filter-'.$tables[$i].'">';
     while ($row = mysqli_fetch_assoc($result)){
-        echo '<button type="submit" name="'.$table.'" value="'.$row['ID'].'">'.$row['Name'].'</button>';
-    }   
+        echo '<button type="submit" name="'.$tables[$i].'" value="'.$row['ID'].'">'.$row['Name'].'</button>';
+    }  
+    echo '</div>'; 
+}
 }
 
 // generate character list when adding styles
