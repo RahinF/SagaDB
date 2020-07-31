@@ -8,3 +8,7 @@
 </head>
 
 <body>
+    <nav>
+        <a href="index.php">Database</a>
+        <a href="add.php">Add Character/Style</a>
+    </nav>

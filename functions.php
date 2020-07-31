@@ -1,13 +1,14 @@
 <?php 
+$GLOBALS['tables'] = ['rarity','roles', 'types', 'spellaffinity'];
 
 // gets the name of the style attributes
 function getAttName($row, $con){
-    $tables = ['rarity','roles', 'types', 'spellaffinity'];
-    for ($i = 0; $i < count($tables); $i++){
-        $select = $tables[$i].'.name';
-        $joinTable = $tables[$i];
-        $joinA = 'styles.'.$tables[$i];
-        $joinB = $tables[$i].'.id';
+    $table = $GLOBALS['tables'];
+    for ($i = 0; $i < count($table); $i++){
+        $select = $table[$i].'.name';
+        $joinTable = $table[$i];
+        $joinA = 'styles.'.$table[$i];
+        $joinB = $table[$i].'.id';
         $stmt = $con->prepare("SELECT ".$select." FROM styles JOIN ".$joinTable." ON ".$joinA." = ".$joinB." WHERE styles.ID = ?");
         $stmt->bind_param('i', $row['ID']);
         $stmt->execute();
@@ -31,5 +32,35 @@ function getAttValue($con, $table){
         echo '<button type="submit" name="'.$table.'" value="'.$row['ID'].'">'.$row['Name'].'</button>';
     }   
 }
+
+// generates style attributes in list on add section
+function genStyleAtt($con){
+    $tables = $GLOBALS['tables'];
+    array_unshift($tables,"characters");
+
+    for ($i = 0; $i < count($tables); $i++){
+    $sql = "SELECT * FROM $tables[$i]";
+    $result = mysqli_query($con, $sql);
+
+    echo '<select name="'.$tables[$i].'">';
+    while ($row = mysqli_fetch_assoc($result)){
+        echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
+    }
+    echo '</select>';
+}}
+
+
+// generate series list
+function genCharSeries($con){
+        $sql = "SELECT * FROM series";
+        $result = mysqli_query($con, $sql);
+    
+        echo '<select name="series">';
+        while ($row = mysqli_fetch_assoc($result)){
+            echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
+        }
+        echo '</select>';
+}
+
 
 ?>
