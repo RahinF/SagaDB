@@ -95,7 +95,7 @@ if (isset($_POST['style'])){
 </form>
 <br>
 
-<h1>style</h1>
+<h1>Style</h1>
 <form action="add.php" method="post">
     <?php genCharList($con)?>
     <input type="text" name="style[name]" placeholder="Name" required>

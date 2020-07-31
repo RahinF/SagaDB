@@ -35,7 +35,7 @@ function getAttValue($con, $table){
 
 // generate character list when adding styles
 function genCharList($con){
-    $sql = "SELECT * FROM characters";
+    $sql = "SELECT * FROM `characters` ORDER BY name ASC";
     $result = mysqli_query($con, $sql);
     
     echo '<select name="style[characters]" required>';
