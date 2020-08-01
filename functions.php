@@ -33,11 +33,15 @@ function getAttValue($con){
     $result = mysqli_query($con, $sql);
 
     echo '<div id="filter-'.$tables[$i].'">';
-    while ($row = mysqli_fetch_assoc($result)){
-        echo '<button type="submit" name="'.$tables[$i].'" value="'.$row['ID'].'">'.$row['Name'].'</button>';
-    }  
+    
+    echo '<select name="filter['.$tables[$i].']">';
+    echo '<option value="0">'.$tables[$i].'</option>';
+        while ($row = mysqli_fetch_assoc($result)){
+            echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
+        } 
+        echo '</select>';
     echo '</div>'; 
-}
+    }
 }
 
 // generate character list when adding styles
@@ -61,23 +65,24 @@ function genStyleAtt($con){
     $result = mysqli_query($con, $sql);
 
     echo '<select name="style['.$tables[$i].']" required>';
-    while ($row = mysqli_fetch_assoc($result)){
+        while ($row = mysqli_fetch_assoc($result)){
         echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
-    }
+        }
     echo '</select>';
-}}
+    }
+}
 
 
 // generate series list
 function genCharSeries($con){
-        $sql = "SELECT * FROM series";
-        $result = mysqli_query($con, $sql);
+    $sql = "SELECT * FROM series";
+    $result = mysqli_query($con, $sql);
     
-        echo '<select name="char[series]" required>';
+    echo '<select name="char[series]" required>';
         while ($row = mysqli_fetch_assoc($result)){
             echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
         }
-        echo '</select>';
+    echo '</select>';
 }
 
 

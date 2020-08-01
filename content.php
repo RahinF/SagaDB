@@ -6,13 +6,32 @@ include 'filters.php';
 // query db
 $sql = "SELECT * FROM styles";
 
-// filters query based on button selection
-// currently only one at a time
-if(!empty($_GET)){
-    $attribute = key($_GET);
-    $id = $_GET[key($_GET)];
-    $sql .= ' WHERE '.$attribute.' = '.$id;
-    unset($_GET);
+
+// filters query based on drop down selection
+if(isset($_GET['filter'])){
+
+    $counter = 0;
+
+    foreach($_GET['filter'] as $attribute => $value){
+
+        // if user has selected a filter
+        if($value > 0){
+
+            // first option selected
+            if($counter === 0){
+                $sql .= ' WHERE '.$attribute.' = '.$value;
+                $counter++;
+                
+            } 
+            
+            // if more than 1 option is selected
+            else {
+                $sql .= ' AND '.$attribute.' = '.$value; 
+            }
+           
+        }
+    }
+
 }
 
 $result = mysqli_query($con, $sql);
