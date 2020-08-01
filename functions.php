@@ -2,24 +2,27 @@
 $GLOBALS['tables'] = ['rarity','roles', 'types', 'spellaffinity'];
 
 // gets the name of the style attributes
-function getAttName($row, $con){
-    $table = $GLOBALS['tables'];
-    for ($i = 0; $i < count($table); $i++){
-        $select = $table[$i].'.name';
-        $joinTable = $table[$i];
-        $joinA = 'styles.'.$table[$i];
-        $joinB = $table[$i].'.id';
-        $stmt = $con->prepare("SELECT ".$select." FROM styles JOIN ".$joinTable." ON ".$joinA." = ".$joinB." WHERE styles.ID = ?");
+function getAttName($row, $con, $table){
+        $select = $table.'.name';
+        $joinTable = $table;
+        $joinA = 'styles.'.$table;
+        $joinB = $table.'.id';
+
+        $stmt = $con->prepare("
+
+        SELECT ".$select." 
+        FROM styles JOIN ".$joinTable." 
+        ON ".$joinA." = ".$joinB." 
+        WHERE styles.ID = ?
+        
+        ");
+        
         $stmt->bind_param('i', $row['ID']);
         $stmt->execute();
         $stmt->bind_result($query);
         $stmt->fetch();
         $stmt->close();
-       
-        echo '<td>';
-        echo $query;
-        echo '</td>';
-    }
+        return $query;
 }
 
 

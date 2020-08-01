@@ -4,7 +4,7 @@ include 'functions.php';
 include 'filters.php';
 
 // query db
-$sql = "SELECT * FROM styles";
+$sql = "SELECT `ID`, `Name`,`Title`,`Rarity`,`Roles`,`Types`,`SpellAffinity` FROM styles";
 
 
 // filters query based on drop down selection
@@ -21,7 +21,6 @@ if(isset($_GET['filter'])){
             if($counter === 0){
                 $sql .= ' WHERE '.$attribute.' = '.$value;
                 $counter++;
-                
             } 
             
             // if more than 1 option is selected
@@ -49,16 +48,32 @@ $result = mysqli_query($con, $sql);
 
     <?php 
 
-
-// print all rows
+// prints all rows
 while ($row = mysqli_fetch_assoc($result)){
-    ?>
-    <tr>
-        <td><?= $row['Name']?></td>
-        <td><?= $row['Title']?></td>
-        <?php getAttName($row, $con)?>
-    </tr>
-    <?php
-}
+
+    $table = $GLOBALS['tables'];
+    $i = 0;
+    echo '<tr>';
+
+    foreach($row as $attribute => $value){
+       
+        // if attribute is equal to something in the array
+        // get the att name otherwise print the value
+        if(strcasecmp($attribute, $table[$i]) == 0){
+            $attName = getAttName($row, $con, $table[$i]);
+            echo '<td>'.$attName.'</td>';
+            $i++;
+        }
+        else {
+            // ID is not printed
+            if($attribute !== 'ID'){
+            echo '<td>'.$value.'</td>';}
+        }
+        
+    }
+    echo '</tr>';
+ }
+
+
 ?>
 </table>
