@@ -85,5 +85,23 @@ function genCharSeries($con){
     echo '</select>';
 }
 
+// gets the series name for characters
+function getSeriesName($row, $con){
+    $stmt = $con->prepare("
+
+    SELECT S.Name 
+    FROM series S JOIN characters C 
+    ON S.ID = C.Series 
+    WHERE C.Name = ?
+    
+    ");
+    $stmt->bind_param('s', $row['Name']);
+    $stmt->execute();
+    $stmt->bind_result($query);
+    $stmt->fetch();
+    $stmt->close();
+    return $query;
+}
+
 
 ?>

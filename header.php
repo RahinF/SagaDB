@@ -11,4 +11,5 @@
     <nav>
         <a href="index.php">Database</a>
         <a href="add.php">Add Character/Style</a>
+        <a href="characters.php">Character List</a>
     </nav>
