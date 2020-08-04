@@ -35,9 +35,8 @@ $result = mysqli_query($con, $sql);
 
 // print all rows
 while ($row = mysqli_fetch_assoc($result)){
-    ?>
-    <tr>
-        <?php 
+    
+    echo '<tr>';        
     
     foreach($row as $attribute => $value){
         
@@ -49,13 +48,12 @@ while ($row = mysqli_fetch_assoc($result)){
             echo '<td>'.$value.'</td>';
         }
     }
-    ?>
-
-
-    </tr>
-    <?php
+    
+    echo '</tr>';
+    
 }
 ?>
+
 </table>
 
 <?php

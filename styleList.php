@@ -4,7 +4,12 @@ include 'functions.php';
 include 'filters.php';
 
 // query db
-$sql = "SELECT `ID`, `Name`,`Title`,`Rarity`,`Roles`,`Types`,`SpellAffinity` FROM styles";
+$sql = "
+SELECT S.ID, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
+E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
+FROM styles S LEFT JOIN elementalresistances E 
+ON S.ID = E.ID
+";
 
 
 // filters query based on drop down selection
@@ -44,35 +49,53 @@ $result = mysqli_query($con, $sql);
         <th>Role</th>
         <th>Type</th>
         <th>Spell Affinity</th>
+        <th>Slash</th>
+        <th>Blunt</th>
+        <th>Pierce</th>
+        <th>Heat</th>
+        <th>Cold</th>
+        <th>Lightning</th>
+        <th>Sun</th>
+        <th>Shadow</th>
     </tr>
 
     <?php 
 
 // prints all rows
 while ($row = mysqli_fetch_assoc($result)){
-
-    $table = $GLOBALS['tables'];
-    $i = 0;
+    
+    $id = $row['ID'];
     echo '<tr>';
-
+    
     foreach($row as $attribute => $value){
-       
-        // if attribute is equal to something in the array
-        // get the att name otherwise print the value
-        if(strcasecmp($attribute, $table[$i]) == 0){
-            $attName = getAttName($row, $con, $table[$i]);
-            echo '<td>'.$attName.'</td>';
-            $i++;
-        }
-        else {
-            // ID is not printed
-            if($attribute !== 'ID'){
-            echo '<td>'.$value.'</td>';}
-        }
         
+        switch ($attribute) {
+            case 'ID':
+                break;
+            case 'Rarity':
+                $attName = getRarityName($id, $con);
+                echo '<td>'.$attName.'</td>';
+                break;
+            case 'Role':
+                $attName = getRoleName($id, $con);
+                echo '<td>'.$attName.'</td>';
+                break;
+            case 'Type':
+                $attName = getTypeName($id, $con);
+                echo '<td>'.$attName.'</td>';
+                break;
+            case 'SpellAffinity':
+                $attName = getSpellAffName($id, $con);
+                echo '<td>'.$attName.'</td>';
+                break;
+            default:
+                echo '<td>'.$value.'</td>'; 
+                break;
+        } 
     }
+    
     echo '</tr>';
- }
+}
 
 
 ?>
