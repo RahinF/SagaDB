@@ -1,7 +1,7 @@
 <?php 
 $GLOBALS['tables'] = ['rarity','roles', 'types', 'spellaffinity'];
 
-// get the name of the role
+// get the name of the rarity
 function getRarityName($id, $con){
     $stmt = $con->prepare("
 
@@ -80,23 +80,81 @@ function getSpellAffName($id, $con){
 
 
 // gets the names of the values ie role: attacker, def, etc 
-function getAttValue($con){
-    $tables = $GLOBALS['tables'];
-
-    for ($i = 0; $i < count($tables); $i++){
-    $sql = "SELECT * FROM $tables[$i]";
+function getAttValue($con, $table){
+   
+    $sql = "SELECT * FROM $table";
     $result = mysqli_query($con, $sql);
 
-    echo '<div id="filter-'.$tables[$i].'">';
+    echo '<div id="filter-'.$table.'">';
     
-    echo '<select name="filter['.$tables[$i].']">';
-    echo '<option value="0">'.$tables[$i].'</option>';
+    echo '<select name="filter['.$table.']">';
+    echo '<option value="0">'.$table.'</option>';
         while ($row = mysqli_fetch_assoc($result)){
             echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
         } 
         echo '</select>';
     echo '</div>'; 
-    }
+
+}
+
+
+// generate drop down list of rarites
+function genRarityList($con){
+   
+    $sql = "SELECT * FROM Rarity";
+    $result = mysqli_query($con, $sql);
+   
+    echo '<select name="filter[Rarity]">';
+    echo '<option value="0">Rarity</option>';
+        while ($row = mysqli_fetch_assoc($result)){
+            echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
+        } 
+        echo '</select>';
+}
+
+
+// generate drop down list of style roles
+function genRoleList($con){
+   
+    $sql = "SELECT * FROM Roles";
+    $result = mysqli_query($con, $sql);
+
+    echo '<select name="filter[Role]">';
+    echo '<option value="0">Role</option>';
+        while ($row = mysqli_fetch_assoc($result)){
+            echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
+        } 
+        echo '</select>';
+}
+
+
+// generate drop down list of weapon types
+function genTypeList($con){
+   
+    $sql = "SELECT * FROM Types";
+    $result = mysqli_query($con, $sql);
+
+    echo '<select name="filter[Type]">';
+    echo '<option value="0">Type</option>';
+        while ($row = mysqli_fetch_assoc($result)){
+            echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
+        } 
+        echo '</select>';
+}
+
+
+// generate drop down list of spell affinities
+function genSpellAffList($con){
+   
+    $sql = "SELECT * FROM SpellAffinity";
+    $result = mysqli_query($con, $sql);
+  
+    echo '<select name="filter[SpellAffinity]">';
+    echo '<option value="0">SpellAffinity</option>';
+        while ($row = mysqli_fetch_assoc($result)){
+            echo '<option value="'.$row['ID'].'">'.$row['Name'].'</option>';
+        } 
+        echo '</select>'; 
 }
 
 // generate character list when adding styles

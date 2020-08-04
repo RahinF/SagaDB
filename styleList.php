@@ -32,7 +32,7 @@ if(isset($_GET['filter'])){
             else {
                 $sql .= ' AND '.$attribute.' = '.$value; 
             }
-           
+          
         }
     }
 
