@@ -1,69 +1,12 @@
 <?php 
 
-// get the name of the rarity
-function getRarityName($id, $con){
+// get the name of the rarity, role, type, affinity
+function getAttName($id, $con, $column, $table){
     $stmt = $con->prepare("
 
-    SELECT R.NAME 
-    FROM STYLES S JOIN RARITY R
-    ON S.RARITY = R.ID
-    WHERE S.ID = ?
-    
-    ");
-    
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-    $stmt->bind_result($query);
-    $stmt->fetch();
-    $stmt->close();
-    return $query;
-}
-
-// get the name of the role
-function getRoleName($id, $con){
-    $stmt = $con->prepare("
-
-    SELECT R.NAME 
-    FROM STYLES S JOIN ROLES R
-    ON S.ROLE = R.ID
-    WHERE S.ID = ?
-    
-    ");
-    
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-    $stmt->bind_result($query);
-    $stmt->fetch();
-    $stmt->close();
-    return $query;
-}
-
-// get the name of the type
-function getTypeName($id, $con){
-    $stmt = $con->prepare("
-
-    SELECT T.NAME 
-    FROM STYLES S JOIN TYPES T
-    ON S.TYPE = T.ID
-    WHERE S.ID = ?
-    
-    ");
-    
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-    $stmt->bind_result($query);
-    $stmt->fetch();
-    $stmt->close();
-    return $query;
-}
-
-// get the name of the spell affinity
-function getSpellAffName($id, $con){
-    $stmt = $con->prepare("
-
-    SELECT SA.NAME 
-    FROM STYLES S JOIN SPELLAFFINITY SA
-    ON S.SPELLAFFINITY = SA.ID
+    SELECT X.NAME 
+    FROM STYLES S JOIN {$table} X
+    ON S.{$column} = X.ID
     WHERE S.ID = ?
     
     ");

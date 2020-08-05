@@ -73,19 +73,19 @@ while ($row = mysqli_fetch_assoc($result)){
             case 'ID':
                 break;
             case 'Rarity':
-                $attName = getRarityName($id, $con);
+                $attName = getAttName($id, $con, 'Rarity', 'Rarity');
                 echo "<td>{$attName}</td>";
                 break;
             case 'Role':
-                $attName = getRoleName($id, $con);
+                $attName = getAttName($id, $con, 'Role', 'Roles');
                 echo "<td>{$attName}</td>";
                 break;
             case 'Type':
-                $attName = getTypeName($id, $con);
+                $attName = getAttName($id, $con, 'Type', 'Types');
                 echo "<td>{$attName}</td>";
                 break;
             case 'SpellAffinity':
-                $attName = getSpellAffName($id, $con);
+                $attName = getAttName($id, $con, 'SpellAffinity', 'SpellAffinity');
                 echo "<td>{$attName}</td>";
                 break;
             default:
