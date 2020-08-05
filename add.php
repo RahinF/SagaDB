@@ -89,7 +89,11 @@ if (isset($_POST['style'])){
     <input type="radio" name="char[gender]" value="Male" required>Male
     <input type="radio" name="char[gender]" value="Female">Female
     <input type="radio" name="char[gender]" value="Other">Other
-    <?php genCharSeries($con)?>
+
+    <select name="char[series]" required>
+        <?php genStyleAtt($con, 'Series')?>
+    </select>
+
     <input type="text" name="char[desc]" placeholder="Desc" required>
     <input type="submit" value="Add Character">
 </form>
@@ -97,10 +101,30 @@ if (isset($_POST['style'])){
 
 <h1>Style</h1>
 <form action="add.php" method="post">
-    <?php genCharList($con)?>
+
+    <select name='style[characters]' required>
+        <?php genCharList($con)?>
+    </select>
+
     <input type="text" name="style[name]" placeholder="Name" required>
     <input type="text" name="style[title]" placeholder="Title" required>
-    <?php genStyleAtt($con)?>
+
+    <select name='style[Rarity]' required>
+        <?php genStyleAtt($con, 'Rarity'); ?>
+    </select>
+
+    <select name='style[Roles]' required>
+        <?php genStyleAtt($con, 'Roles'); ?>
+    </select>
+
+    <select name='style[Types]' required>
+        <?php genStyleAtt($con, 'Types'); ?>
+    </select>
+
+    <select name='style[SpellAffinity]' required>
+        <?php genStyleAtt($con, 'SpellAffinity'); ?>
+    </select>
+
     <input type="text" name="style[desc]" placeholder="Description" required>
     <input type="submit" value="Add Style">
 </form>

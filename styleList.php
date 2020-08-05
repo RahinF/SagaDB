@@ -24,13 +24,13 @@ if(isset($_GET['filter'])){
 
             // first option selected
             if($counter === 0){
-                $sql .= ' WHERE '.$attribute.' = '.$value;
+                $sql .= " WHERE {$attribute} = {$value}";
                 $counter++;
             } 
             
             // if more than 1 option is selected
             else {
-                $sql .= ' AND '.$attribute.' = '.$value; 
+                $sql .= " AND {$attribute} = {$value}"; 
             }
           
         }
@@ -65,7 +65,7 @@ $result = mysqli_query($con, $sql);
 while ($row = mysqli_fetch_assoc($result)){
     
     $id = $row['ID'];
-    echo '<tr>';
+    echo "<tr>";
     
     foreach($row as $attribute => $value){
         
@@ -74,27 +74,27 @@ while ($row = mysqli_fetch_assoc($result)){
                 break;
             case 'Rarity':
                 $attName = getRarityName($id, $con);
-                echo '<td>'.$attName.'</td>';
+                echo "<td>{$attName}</td>";
                 break;
             case 'Role':
                 $attName = getRoleName($id, $con);
-                echo '<td>'.$attName.'</td>';
+                echo "<td>{$attName}</td>";
                 break;
             case 'Type':
                 $attName = getTypeName($id, $con);
-                echo '<td>'.$attName.'</td>';
+                echo "<td>{$attName}</td>";
                 break;
             case 'SpellAffinity':
                 $attName = getSpellAffName($id, $con);
-                echo '<td>'.$attName.'</td>';
+                echo "<td>{$attName}</td>";
                 break;
             default:
-                echo '<td>'.$value.'</td>'; 
+                echo "<td>{$value}</td>"; 
                 break;
         } 
     }
     
-    echo '</tr>';
+    echo "</tr>";
 }
 
 
