@@ -34,6 +34,7 @@ function genStyleAtt($con, $table){
 
 // generate character list when adding styles
 function genCharList($con){
+    
     $sql = "SELECT `Name` FROM `characters` ORDER BY name ASC";
     $result = mysqli_query($con, $sql);
     
@@ -47,10 +48,10 @@ function genCharList($con){
 function getSeriesName($row, $con){
     $stmt = $con->prepare("
 
-    SELECT S.Name 
-    FROM series S JOIN characters C 
-    ON S.ID = C.Series 
-    WHERE C.Name = ?
+    SELECT S.NAME 
+    FROM SERIES S JOIN CHARACTERS C 
+    ON S.ID = C.SERIES 
+    WHERE C.NAME = ?
     
     ");
     $stmt->bind_param('s', $row['Name']);

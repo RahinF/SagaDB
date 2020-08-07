@@ -10,13 +10,61 @@ if (isset($_POST['char'])){
     $gender = $_POST['char']['gender'];
     $series = $_POST['char']['series'];
     $desc = $_POST['char']['desc'];
+    $str = $_POST['char']['STR'];
+    $end = $_POST['char']['END'];
+    $dex = $_POST['char']['DEX'];
+    $agi = $_POST['char']['AGI'];
+    $int = $_POST['char']['INT'];
+    $wil = $_POST['char']['WIL'];
+    $lov = $_POST['char']['LOV'];
+    $cha = $_POST['char']['CHA'];
     
     if (isset($name)){
         $name = filter_var($name, FILTER_SANITIZE_STRING);
     }
 
+    if (isset($gender)){
+        $gender = filter_var($gender, FILTER_SANITIZE_STRING);
+    }
+
+    if (isset($series)){
+        $series = filter_var($series, FILTER_VALIDATE_INT);
+    }
+
     if (isset($desc)){
         $desc = filter_var($desc, FILTER_SANITIZE_STRING);
+    }
+
+    if (isset($str)){
+        $str = filter_var($str, FILTER_VALIDATE_INT);
+    }
+
+    if (isset($end)){
+        $end = filter_var($end, FILTER_VALIDATE_INT);
+    }
+
+    if (isset($dex)){
+        $dex = filter_var($dex, FILTER_VALIDATE_INT);
+    }
+
+    if (isset($agi)){
+        $agi = filter_var($agi, FILTER_VALIDATE_INT);
+    }
+
+    if (isset($int)){
+        $int = filter_var($int, FILTER_VALIDATE_INT);
+    }
+
+    if (isset($wil)){
+        $wil = filter_var($wil, FILTER_VALIDATE_INT);
+    }
+
+    if (isset($lov)){
+        $lov = filter_var($lov, FILTER_VALIDATE_INT);
+    }
+
+    if (isset($cha)){
+        $cha = filter_var($cha, FILTER_VALIDATE_INT);
     }
 
     // see if character already exists
@@ -34,6 +82,14 @@ if (isset($_POST['char'])){
             $stmt->bind_param('ssis', $name, $gender, $series, $desc);
             $stmt->execute();
             $stmt->close();
+
+            
+            // insert stats
+            $stmt = $con->prepare('INSERT INTO attributes (`Name`, `STR`, `END`, `DEX`, `AGI`, `INT`, `WIL`, `LOV`, `CHA`) VALUES (?,?,?,?,?,?,?,?,?)');
+            $stmt->bind_param('siiiiiiii', $name, $str, $end, $dex, $agi, $int, $wil, $lov, $cha);
+            $stmt->execute();
+            $stmt->close();
+            
             echo $name, $gender, $series, $desc.' added';
         }
 }
@@ -83,20 +139,7 @@ if (isset($_POST['style'])){
 
 
 
-<h1>Character</h1>
-<form action="add.php" method="post">
-    <input type="text" name="char[name]" placeholder="Name" required>
-    <input type="radio" name="char[gender]" value="Male" required>Male
-    <input type="radio" name="char[gender]" value="Female">Female
-    <input type="radio" name="char[gender]" value="Other">Other
-
-    <select name="char[series]" required>
-        <?php genStyleAtt($con, 'Series')?>
-    </select>
-
-    <input type="text" name="char[desc]" placeholder="Desc" required>
-    <input type="submit" value="Add Character">
-</form>
+<?php include 'addchar.php';?>
 <br>
 
 <h1>Style</h1>
@@ -132,6 +175,4 @@ if (isset($_POST['style'])){
 
 
 
-<?php
-include 'footer.php';
-?>
+<?php include 'footer.php';?>
