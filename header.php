@@ -26,9 +26,11 @@
 </head>
 
 <body>
-    <nav>
-        <a href="index.php">Styles</a>
-        <a href="add.php">Add</a>
-        <a href="characters.php">Characters</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav">
+            <li><a class="nav-link" href="index.php">Styles</a></li>
+            <li><a class="nav-link" href="add.php">Add</a></li>
+            <li><a class="nav-link" href="characters.php">Characters</a></li>
+        </ul>
     </nav>
     <div class="container-fluid">

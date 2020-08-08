@@ -39,9 +39,12 @@ $result = mysqli_query($con, $sql);
 ?>
 
 <div class="row">
-    <?php include 'filters.php';?>
 
-    <div class="col">
+    <div class="col-3 bg-primary m-3">
+        <?php include 'filters.php';?>
+    </div>
+
+    <div class="col-8">
         <table class="table table-hover table-responsive">
             <thead class="thead-dark">
                 <tr>
