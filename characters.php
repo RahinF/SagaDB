@@ -27,7 +27,6 @@ $result = mysqli_query($con, $sql);
         <th>WIL</th>
         <th>LOV</th>
         <th>CHA</th>
-
     </tr>
 
     <?php 

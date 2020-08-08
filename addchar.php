@@ -57,5 +57,5 @@
         </div>
     </div>
 
-    <input type="submit" value="Add Character">
+    <input type="submit" class="btn btn-primary" value="Add Character">
 </form>
