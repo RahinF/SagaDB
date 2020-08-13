@@ -2,9 +2,9 @@
 
 <h5>Rarity</h5>
 <div class="filter-rarity btn-group">
-    <button class="btn btn-danger">SS</button>
-    <button class="btn btn-danger">S</button>
-    <button class="btn btn-danger">A</button>
+    <button id="SS" class="btn btn-danger">SS</button>
+    <button id="S" class="btn btn-danger">S</button>
+    <button id="A" class="btn btn-danger">A</button>
 </div>
 
 <h5>Role</h5>

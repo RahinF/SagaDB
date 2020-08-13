@@ -18,18 +18,15 @@ if(isset($_POST)){
     
     foreach($_POST as $attribute => $value){
 
-        // if user has selected a filter
-        if($value !== 'Please Select'){
+        // first option selected
+        if($counter === 0){
+             $sql .= " WHERE {$attribute} = '{$value}'";
+            $counter++;
+        } 
             
-            // first option selected
-            if($counter === 0){
-                $sql .= " WHERE {$attribute} = '{$value}'";
-                $counter++;
-            } 
-            
-            // if more than 1 option is selected
-            else { $sql .= " AND {$attribute} = '{$value}'"; }
-        }
+        // if more than 1 option is selected
+        else { $sql .= " AND {$attribute} = '{$value}'"; }
+        
     }print_r($_POST) ; echo $sql;
 }
 
@@ -109,12 +106,17 @@ $(document).ready(function() {
 
 // filter style table
 $(document).ready(function() {
-    $(".filter-rarity").find("button").click(function() {
+    $(".filter-rarity").find("button").click(function(button) {
         var rarity = $(this).text();
-        //$(this).siblings("button").removeClass("btn-danger");
+        var btn = button.target.id;
 
         $(".container-fluid").load("styleList.php", {
             Rarity: rarity,
+        }, function() {
+
+            // active filter is shown
+            $(`#${btn}`).siblings().removeClass("btn-dark");
+            $(`#${btn}`).addClass("btn-dark");
         });
     });
 
