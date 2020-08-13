@@ -43,18 +43,13 @@ while ($row = mysqli_fetch_assoc($result)){
             $series = getSeriesName($row, $con);
             echo "<td>{$series}</td>";
         }
-        else {
-            echo "<td>{$value}</td>";
-        }
+        else { echo "<td>{$value}</td>"; }
     }
     
     echo "</tr>";
-    
 }
 ?>
 
 </table>
 
-<?php
-include 'footer.php'; 
-?>
+<?php include 'footer.php'; ?>

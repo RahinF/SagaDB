@@ -7,32 +7,30 @@ include 'functions.php';
 $sql = "
 SELECT S.ID, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
 E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
-FROM styles S LEFT JOIN elementalresistances E 
+FROM styles S LEFT JOIN eresist E 
 ON S.ID = E.ID
 ";
 
 // filters query based on drop down selection
 if(isset($_POST)){
-  
-    $counter = 0;
 
+    $counter = 0;
+    
     foreach($_POST as $attribute => $value){
 
         // if user has selected a filter
-        if($value > 0){
-
+        if($value !== 'Please Select'){
+            
             // first option selected
             if($counter === 0){
-                $sql .= " WHERE {$attribute} = {$value}";
+                $sql .= " WHERE {$attribute} = '{$value}'";
                 $counter++;
             } 
             
             // if more than 1 option is selected
-            else {
-                $sql .= " AND {$attribute} = {$value}"; 
-            }
+            else { $sql .= " AND {$attribute} = '{$value}'"; }
         }
-    }
+    }print_r($_POST) ; echo $sql;
 }
 
 $result = mysqli_query($con, $sql);
@@ -48,7 +46,7 @@ $result = mysqli_query($con, $sql);
         <table class="table table-hover table-responsive">
             <thead class="thead-dark">
                 <tr>
-                    <th>Style Name</th>
+                    <th>Style</th>
                     <th>Title</th>
                     <th>Rarity</th>
                     <th>Role</th>
@@ -81,35 +79,13 @@ else {
 
 // prints all rows
     while ($row = mysqli_fetch_assoc($result)){
-    
-        $id = $row['ID'];
-   
+
         echo "<tr>";
     
         foreach($row as $attribute => $value){
         
-            switch ($attribute) {
-                case 'ID':
-                    break;
-                case 'Rarity':
-                    $attName = getAttName($id, $con, 'Rarity', 'Rarity');
-                    echo "<td>{$attName}</td>";
-                    break;
-                case 'Role':
-                    $attName = getAttName($id, $con, 'Role', 'Roles');
-                    echo "<td>{$attName}</td>";
-                    break;
-                case 'Type':
-                    $attName = getAttName($id, $con, 'Type', 'Types');
-                    echo "<td>{$attName}</td>";
-                    break;
-                case 'SpellAffinity':
-                    $attName = getAttName($id, $con, 'SpellAffinity', 'SpellAffinity');
-                    echo "<td>{$attName}</td>";
-                    break;
-                default:
-                    echo "<td>{$value}</td>"; 
-                    break;
+            if ($attribute !== 'ID') {
+                echo "<td>{$value}</td>"; 
             } 
         }
     
@@ -130,20 +106,39 @@ $(document).ready(function() {
     $("table").DataTable();
 });
 
+
 // filter style table
 $(document).ready(function() {
-    $("button").click(function() {
-        var rarity = $("#filter-Rarity option:selected").val();
-        var role = $("#filter-Role option:selected").val();
-        var type = $("#filter-Type option:selected").val();
-        var affinity = $("#filter-SpellAffinity option:selected").val();
+    $(".filter-rarity").find("button").click(function() {
+        var rarity = $(this).text();
+        //$(this).siblings("button").removeClass("btn-danger");
 
-        // .container-fluid is the div the table is in
         $(".container-fluid").load("styleList.php", {
             Rarity: rarity,
+        });
+    });
+
+    $(".filter-role").find("button").click(function() {
+        var role = $(this).text();
+
+        $(".container-fluid").load("styleList.php", {
             Role: role,
+        });
+    });
+
+    $(".filter-type").find("button").click(function() {
+        var type = $(this).text();
+
+        $(".container-fluid").load("styleList.php", {
             Type: type,
-            SpellAffinity: affinity
+        });
+    });
+
+    $(".filter-affinity").find("button").click(function() {
+        var affinity = $(this).text();
+
+        $(".container-fluid").load("styleList.php", {
+            SpellAffinity: affinity,
         });
     });
 });

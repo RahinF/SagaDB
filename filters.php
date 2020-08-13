@@ -1,35 +1,41 @@
 <h4>filters</h4>
 
-<div class="row m-2">
-    <label class="col" for="filter-Rarity">Rarity</label>
-    <select id="filter-Rarity" name=" filter[Rarity]" class="col align-self-end">
-        <option value="0">Rarity</option>
-        <?php genStyleAtt($con, 'Rarity'); ?>
-    </select>
+<h5>Rarity</h5>
+<div class="filter-rarity btn-group">
+    <button class="btn btn-danger">SS</button>
+    <button class="btn btn-danger">S</button>
+    <button class="btn btn-danger">A</button>
 </div>
 
-<div class="row m-2">
-    <label class="col" for="filter-Role">Role</label>
-    <select id="filter-Role" name="filter[Role]" class="col align-self-end">
-        <option value="0">Role</option>
-        <?php genStyleAtt($con, 'Roles'); ?>
-    </select>
+<h5>Role</h5>
+<div class="filter-role btn-group">
+    <button class="btn btn-danger">Attacker</button>
+    <button class="btn btn-danger">Defender</button>
+    <button class="btn btn-danger">Jammer</button>
+    <button class="btn btn-danger">Supporter</button>
 </div>
 
-<div class="row m-2">
-    <label class="col" for="filter-Type">Type</label>
-    <select id="filter-Type" name="filter[Type]" class="col align-self-end">
-        <option value="0">Type</option>
-        <?php genStyleAtt($con, 'Types'); ?>
-    </select>
+<h5>Type</h5>
+<div class="filter-type btn-group">
+    <button class="btn btn-danger">Sword</button>
+    <button class="btn btn-danger">G.Sword</button>
+    <button class="btn btn-danger">Axe</button>
+    <button class="btn btn-danger">Club</button>
+    <button class="btn btn-danger">M.Arts</button>
+    <button class="btn btn-danger">Gun</button>
+    <button class="btn btn-danger">S.Sword</button>
+    <button class="btn btn-danger">Spear</button>
+    <button class="btn btn-danger">Bow</button>
+    <button class="btn btn-danger">Staff</button>
 </div>
 
-<div class="row m-2">
-    <label class="col" for="filter-SpellAffinity">Spell Affinity</label>
-    <select id="filter-SpellAffinity" name="filter[SpellAffinity]" class="col align-self-end">
-        <option value="0">Spell Affinity</option>
-        <?php genStyleAtt($con, 'SpellAffinity'); ?>
-    </select>
+<h5>Spell Affinity</h5>
+<div class="filter-affinity btn-group">
+    <button class="btn btn-danger">None</button>
+    <button class="btn btn-danger">Fire</button>
+    <button class="btn btn-danger">Water</button>
+    <button class="btn btn-danger">Earth</button>
+    <button class="btn btn-danger">Wind</button>
+    <button class="btn btn-danger">Light</button>
+    <button class="btn btn-danger">Dark</button>
 </div>
-
-<button class="btn btn-warning btn-sm row m-2">Filter</button>

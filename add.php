@@ -6,6 +6,7 @@ include 'header.php';
 
 // add character
 if (isset($_POST['char'])){
+    
     $name = $_POST['char']['name'];
     $gender = $_POST['char']['gender'];
     $series = $_POST['char']['series'];
@@ -19,53 +20,18 @@ if (isset($_POST['char'])){
     $lov = $_POST['char']['LOV'];
     $cha = $_POST['char']['CHA'];
     
-    if (isset($name)){
-        $name = filter_var($name, FILTER_SANITIZE_STRING);
-    }
-
-    if (isset($gender)){
-        $gender = filter_var($gender, FILTER_SANITIZE_STRING);
-    }
-
-    if (isset($series)){
-        $series = filter_var($series, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($desc)){
-        $desc = filter_var($desc, FILTER_SANITIZE_STRING);
-    }
-
-    if (isset($str)){
-        $str = filter_var($str, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($end)){
-        $end = filter_var($end, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($dex)){
-        $dex = filter_var($dex, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($agi)){
-        $agi = filter_var($agi, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($int)){
-        $int = filter_var($int, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($wil)){
-        $wil = filter_var($wil, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($lov)){
-        $lov = filter_var($lov, FILTER_VALIDATE_INT);
-    }
-
-    if (isset($cha)){
-        $cha = filter_var($cha, FILTER_VALIDATE_INT);
-    }
+    if (isset($name)){ $name = filter_var($name, FILTER_SANITIZE_STRING); }
+    if (isset($gender)){ $gender = filter_var($gender, FILTER_SANITIZE_STRING); }
+    if (isset($series)){ $series = filter_var($series, FILTER_VALIDATE_INT); }
+    if (isset($desc)){ $desc = filter_var($desc, FILTER_SANITIZE_STRING); }
+    if (isset($str)){ $str = filter_var($str, FILTER_VALIDATE_INT); }
+    if (isset($end)){ $end = filter_var($end, FILTER_VALIDATE_INT); }
+    if (isset($dex)){ $dex = filter_var($dex, FILTER_VALIDATE_INT); }
+    if (isset($agi)){ $agi = filter_var($agi, FILTER_VALIDATE_INT); }
+    if (isset($int)){ $int = filter_var($int, FILTER_VALIDATE_INT); }
+    if (isset($wil)){ $wil = filter_var($wil, FILTER_VALIDATE_INT); }
+    if (isset($lov)){ $lov = filter_var($lov, FILTER_VALIDATE_INT); }
+    if (isset($cha)){ $cha = filter_var($cha, FILTER_VALIDATE_INT); }
 
     // see if character already exists
     $sql = "SELECT * FROM characters WHERE name = '$name'";
@@ -96,6 +62,7 @@ if (isset($_POST['char'])){
 
 // add style
 if (isset($_POST['style'])){
+    
     $name = $_POST['style']['name'];
     $title = $_POST['style']['title'];
     $character = $_POST['style']['characters'];
@@ -105,17 +72,9 @@ if (isset($_POST['style'])){
     $spellAff = $_POST['style']['spellaffinity'];
     $desc = $_POST['style']['desc'];
     
-    if (isset($name)){
-        $name = filter_var($name, FILTER_SANITIZE_STRING);
-    }
-
-    if (isset($title)){
-        $title = filter_var($title, FILTER_SANITIZE_STRING);
-    }
-
-    if (isset($desc)){
-        $desc = filter_var($desc, FILTER_SANITIZE_STRING);
-    }
+    if (isset($name)){ $name = filter_var($name, FILTER_SANITIZE_STRING); }
+    if (isset($title)){ $title = filter_var($title, FILTER_SANITIZE_STRING); }
+    if (isset($desc)){ $desc = filter_var($desc, FILTER_SANITIZE_STRING); }
 
     // see if style already exists
     $sql = "SELECT * FROM styles WHERE name = '$name' and title = '$title'";

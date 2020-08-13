@@ -1,24 +1,5 @@
 <?php 
 
-// get the name of the rarity, role, type, affinity
-function getAttName($id, $con, $column, $table){
-    $stmt = $con->prepare("
-
-    SELECT X.NAME 
-    FROM STYLES S JOIN {$table} X
-    ON S.{$column} = X.ID
-    WHERE S.ID = ?
-    
-    ");
-    
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-    $stmt->bind_result($query);
-    $stmt->fetch();
-    $stmt->close();
-    return $query;
-}
-
 
 // generates style attributes in list on add section
 function genStyleAtt($con, $table){
