@@ -4,14 +4,14 @@ include 'functions.php';
 
 
 // query db
-$sql = "
+$sql ="
 SELECT S.ID, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
 E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
 FROM styles S LEFT JOIN eresist E 
-ON S.ID = E.ID
-";
+ON S.ID = E.ID";
+$stmt = $pdo->query($sql);
+// $stmt->execute();
 
-// filters query based on drop down selection
 if(isset($_POST)){
 
     $counter = 0;
@@ -27,10 +27,12 @@ if(isset($_POST)){
         // if more than 1 option is selected
         else { $sql .= " AND {$attribute} = '{$value}'"; }
         
-    }print_r($_POST) ; echo $sql;
+    }
+    print_r($_POST); 
+    echo $sql;
 }
 
-$result = mysqli_query($con, $sql);
+
 ?>
 
 <div class="row">
@@ -62,8 +64,8 @@ $result = mysqli_query($con, $sql);
 
             <?php 
 
-// if no rows error message
-if(mysqli_num_rows($result) === 0){
+
+if(!$stmt->rowCount() > 0){
     echo "
     <tr>
         <td colspan='14' class='dataTables_empty'>
@@ -75,8 +77,8 @@ if(mysqli_num_rows($result) === 0){
 else {
 
 // prints all rows
-    while ($row = mysqli_fetch_assoc($result)){
-
+    while ($row = $stmt->fetch()){
+        
         echo "<tr>";
     
         foreach($row as $attribute => $value){
