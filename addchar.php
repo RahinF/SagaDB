@@ -8,7 +8,15 @@
             <input type="radio" name="char[gender]" value="Other">Other
 
             <select name="char[series]" required>
-                <?php genStyleAtt($con, 'Series')?>
+                <option value="RS1">RS1</option>
+                <option value="RS2">RS2</option>
+                <option value="RS3">RS3</option>
+                <option value="SF1">SF1</option>
+                <option value="SF2">SF2</option>
+                <option value="US">US</option>
+                <option value="ES">ES</option>
+                <option value="SSG">SSG</option>
+                <option value="SaGaRS">SaGaRS</option>
             </select>
 
             <input type="text" name="char[desc]" placeholder="Desc" required>

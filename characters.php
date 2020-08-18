@@ -11,7 +11,9 @@ FROM characters C LEFT JOIN attributes A
 ON C.Name = A.Name
 ";
 
-$result = mysqli_query($con, $sql);
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+
 ?>
 
 <table>
@@ -33,17 +35,12 @@ $result = mysqli_query($con, $sql);
 
 
 // print all rows
-while ($row = mysqli_fetch_assoc($result)){
+while ($row = $stmt->fetch()){
     
     echo "<tr>";        
     
     foreach($row as $attribute => $value){
-        
-        if($attribute === 'Series'){
-            $series = getSeriesName($row, $con);
-            echo "<td>{$series}</td>";
-        }
-        else { echo "<td>{$value}</td>"; }
+        echo "<td>{$value}</td>"; 
     }
     
     echo "</tr>";

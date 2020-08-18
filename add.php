@@ -6,7 +6,7 @@ include 'header.php';
 
 // add character
 if (isset($_POST['char'])){
-    
+    print_r($_POST);
     $name = $_POST['char']['name'];
     $gender = $_POST['char']['gender'];
     $series = $_POST['char']['series'];
@@ -22,7 +22,7 @@ if (isset($_POST['char'])){
     
     if (isset($name)){ $name = filter_var($name, FILTER_SANITIZE_STRING); }
     if (isset($gender)){ $gender = filter_var($gender, FILTER_SANITIZE_STRING); }
-    if (isset($series)){ $series = filter_var($series, FILTER_VALIDATE_INT); }
+    if (isset($series)){ $series = filter_var($series, FILTER_SANITIZE_STRING); }
     if (isset($desc)){ $desc = filter_var($desc, FILTER_SANITIZE_STRING); }
     if (isset($str)){ $str = filter_var($str, FILTER_VALIDATE_INT); }
     if (isset($end)){ $end = filter_var($end, FILTER_VALIDATE_INT); }
@@ -34,27 +34,25 @@ if (isset($_POST['char'])){
     if (isset($cha)){ $cha = filter_var($cha, FILTER_VALIDATE_INT); }
 
     // see if character already exists
-    $sql = "SELECT * FROM characters WHERE name = '$name'";
-    $result = mysqli_query($con, $sql);
+    $sql = 'SELECT `Name` FROM `Characters` WHERE `Name` = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$name]);
 
         // character exists
-        if ($row = mysqli_fetch_assoc($result)){
+        if ($row = $stmt->fetch()){
             echo 'char exists';
         } 
         
         // character does exist INSERT new row
         else {
-            $stmt = $con->prepare('INSERT INTO characters (`name`, `gender`, `series`, `description`) VALUES (?,?,?,?)');
-            $stmt->bind_param('ssis', $name, $gender, $series, $desc);
-            $stmt->execute();
-            $stmt->close();
-
+            $sql = 'INSERT INTO `Characters` (`name`, `gender`, `series`, `description`) VALUES (?,?,?,?)';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$name, $gender, $series, $desc]);
             
-            // insert stats
-            $stmt = $con->prepare('INSERT INTO attributes (`Name`, `STR`, `END`, `DEX`, `AGI`, `INT`, `WIL`, `LOV`, `CHA`) VALUES (?,?,?,?,?,?,?,?,?)');
-            $stmt->bind_param('siiiiiiii', $name, $str, $end, $dex, $agi, $int, $wil, $lov, $cha);
-            $stmt->execute();
-            $stmt->close();
+            // Insert Stats
+            $sql = 'INSERT INTO `Attributes` (`Name`, `STR`, `END`, `DEX`, `AGI`, `INT`, `WIL`, `LOV`, `CHA`) VALUES (?,?,?,?,?,?,?,?,?)';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$name, $str, $end, $dex, $agi, $int, $wil, $lov, $cha]);
             
             echo $name, $gender, $series, $desc.' added';
         }
@@ -62,14 +60,14 @@ if (isset($_POST['char'])){
 
 // add style
 if (isset($_POST['style'])){
-    
+
     $name = $_POST['style']['name'];
     $title = $_POST['style']['title'];
     $character = $_POST['style']['characters'];
     $rarity = $_POST['style']['rarity'];
-    $role = $_POST['style']['roles'];
-    $type = $_POST['style']['types'];
-    $spellAff = $_POST['style']['spellaffinity'];
+    $role = $_POST['style']['role'];
+    $type = $_POST['style']['type'];
+    $spellAffinity = $_POST['style']['spellaffinity'];
     $desc = $_POST['style']['desc'];
     
     if (isset($name)){ $name = filter_var($name, FILTER_SANITIZE_STRING); }
@@ -77,20 +75,20 @@ if (isset($_POST['style'])){
     if (isset($desc)){ $desc = filter_var($desc, FILTER_SANITIZE_STRING); }
 
     // see if style already exists
-    $sql = "SELECT * FROM styles WHERE name = '$name' and title = '$title'";
-    $result = mysqli_query($con, $sql);
+    $sql = 'SELECT `ID` FROM `Styles` WHERE `Name` = ? AND `Title` = ?';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$name, $title]);
 
         // style exists
-        if ($row = mysqli_fetch_assoc($result)){
+        if ($row = $stmt->fetch()){
             echo 'style exists';
         } 
         
         // style does exist INSERT new row
         else {
-            $stmt = $con->prepare('INSERT INTO styles (`name`, `character`, `title`, `rarity`, `roles`, `types`, `spellaffinity`, `description`) VALUES (?,?,?,?,?,?,?,?)');
-            $stmt->bind_param('sssiiiis', $name, $character, $title, $rarity, $role, $type, $spellAff, $desc);
-            $stmt->execute();
-            $stmt->close();
+            $sql = 'INSERT INTO `Styles` (`Name`, `Character`, `Title`, `Rarity`, `Role`, `Type`, `SpellAffinity`, `Description`) VALUES (?,?,?,?,?,?,?,?)';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$name, $character, $title, $rarity, $role, $type, $spellAffinity, $desc]);
         }
 }
 

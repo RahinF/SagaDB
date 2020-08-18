@@ -9,29 +9,9 @@ SELECT S.ID, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity,
 E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
 FROM styles S LEFT JOIN eresist E 
 ON S.ID = E.ID";
-$stmt = $pdo->query($sql);
-// $stmt->execute();
 
-if(isset($_POST)){
-
-    $counter = 0;
-    
-    foreach($_POST as $attribute => $value){
-
-        // first option selected
-        if($counter === 0){
-             $sql .= " WHERE {$attribute} = '{$value}'";
-            $counter++;
-        } 
-            
-        // if more than 1 option is selected
-        else { $sql .= " AND {$attribute} = '{$value}'"; }
-        
-    }
-    print_r($_POST); 
-    echo $sql;
-}
-
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
 
 ?>
 
