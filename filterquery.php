@@ -1,13 +1,12 @@
 <?php 
 include 'condb.php';
-$data = $_POST['Rarity'];
-echo $data;
 
-$sql ="
+
+$sql ='
 SELECT S.ID, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
 E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
 FROM styles S LEFT JOIN eresist E 
-ON S.ID = E.ID";
+ON S.ID = E.ID';
 
 // filter add to query based on selection
 if(isset($_POST)){
@@ -26,25 +25,24 @@ if(isset($_POST)){
         else { $sql .= " AND {$attribute} = '{$value}'"; }
         
     }
-    print_r($_POST); 
-    echo $sql;
 }
 
 
 $stmt = $pdo->query($sql);
-// $stmt->execute();
+
+// show data
 while ($row = $stmt->fetch()){
         
-    echo "<tr>";
+    echo '<tr>';
 
     foreach($row as $attribute => $value){
     
         if ($attribute !== 'ID') {
-            //echo "<td>{$value}</td>"; 
+            echo "<td>{$value}</td>"; 
         } 
     }
 
-    echo "</tr>";
+    echo '</tr>';
 
 }
 ?>

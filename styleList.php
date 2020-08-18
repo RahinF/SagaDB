@@ -4,11 +4,11 @@ include 'functions.php';
 
 
 // query db
-$sql ="
+$sql ='
 SELECT S.ID, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
 E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
 FROM styles S LEFT JOIN eresist E 
-ON S.ID = E.ID";
+ON S.ID = E.ID';
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
@@ -41,8 +41,9 @@ $stmt->execute();
                     <th>Shadow</th>
                 </tr>
             </thead>
+            <tbody class="style-list">
 
-            <?php 
+                <?php 
 
 
 if(!$stmt->rowCount() > 0){
@@ -59,7 +60,7 @@ else {
 // prints all rows
     while ($row = $stmt->fetch()){
         
-        echo "<tr>";
+        echo '<tr>';
     
         foreach($row as $attribute => $value){
         
@@ -68,14 +69,14 @@ else {
             } 
         }
     
-        echo "</tr>";
+        echo '</tr>';
   
     }
 }
 
 
 ?>
-
+            </tbody>
         </table>
     </div>
 </div>
@@ -83,47 +84,41 @@ else {
 <script>
 $(document).ready(function() {
     $("table").DataTable();
-});
 
 
-// filter style table
-$(document).ready(function() {
-    $(".filter-rarity").find("button").click(function(button) {
-        var rarity = $(this).text();
-        var btn = button.target.id;
+    // filter style table
+    let rarity, role, type, affinity;
 
-        $(".container-fluid").load("styleList.php", {
+    $(".filters").find("button").click(function() {
+        if ($(this).parent().hasClass("filter-rarity")) {
+            rarity = $(this).text();
+        }
+        if ($(this).parent().hasClass("filter-role")) {
+            role = $(this).text();
+        }
+        if ($(this).parent().hasClass("filter-type")) {
+            type = $(this).text();
+        }
+        if ($(this).parent().hasClass("filter-affinity")) {
+            affinity = $(this).text();
+        }
+
+        // toggle active button class
+        $(this).siblings().removeClass("btn-dark");
+        $(this).addClass("btn-dark");
+    });
+
+    $(".filter-btn").click(function() {
+
+        // .container-fluid is the div the table is in
+        $(".style-list").load("filterquery.php", {
             Rarity: rarity,
-        }, function() {
-
-            // active filter is shown
-            $(`#${btn}`).siblings().removeClass("btn-dark");
-            $(`#${btn}`).addClass("btn-dark");
-        });
-    });
-
-    $(".filter-role").find("button").click(function() {
-        var role = $(this).text();
-
-        $(".container-fluid").load("styleList.php", {
             Role: role,
-        });
-    });
-
-    $(".filter-type").find("button").click(function() {
-        var type = $(this).text();
-
-        $(".container-fluid").load("styleList.php", {
             Type: type,
+            SpellAffinity: affinity
         });
     });
 
-    $(".filter-affinity").find("button").click(function() {
-        var affinity = $(this).text();
 
-        $(".container-fluid").load("styleList.php", {
-            SpellAffinity: affinity,
-        });
-    });
 });
 </script>
