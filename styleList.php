@@ -1,11 +1,12 @@
 <?php 
 include 'condb.php';
 include 'functions.php';
+include 'modal.php';
 
 
 // query db
 $sql ='
-SELECT S.ID, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
+SELECT S.ID, S.Character, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
 E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
 FROM styles S LEFT JOIN eresist E 
 ON S.ID = E.ID';
@@ -25,6 +26,8 @@ $stmt->execute();
         <table class="table table-hover table-responsive">
             <thead class="thead-dark">
                 <tr>
+                    <th>ID</th>
+                    <th>Character</th>
                     <th>Style</th>
                     <th>Title</th>
                     <th>Rarity</th>
@@ -46,7 +49,23 @@ $stmt->execute();
                 <?php 
 
 
-if(!$stmt->rowCount() > 0){
+if($stmt->rowCount() > 0){
+    // prints all rows
+    while ($row = $stmt->fetch()){
+        
+        echo '<tr>';
+    
+        foreach($row as $attribute => $value){
+            echo "<td>{$value}</td>"; 
+        }
+
+        echo '</tr>';
+    }
+    
+}
+
+else {
+    
     echo "
     <tr>
         <td colspan='14' class='dataTables_empty'>
@@ -54,24 +73,6 @@ if(!$stmt->rowCount() > 0){
         </td>
     </tr>
     ";
-} 
-else {
-
-// prints all rows
-    while ($row = $stmt->fetch()){
-        
-        echo '<tr>';
-    
-        foreach($row as $attribute => $value){
-        
-            if ($attribute !== 'ID') {
-                echo "<td>{$value}</td>"; 
-            } 
-        }
-    
-        echo '</tr>';
-  
-    }
 }
 
 
@@ -83,7 +84,37 @@ else {
 
 <script>
 $(document).ready(function() {
-    $("table").DataTable();
+
+    // brings up modal with detailed info on style
+    $("table").on('click', 'tr', function() {
+        let table = $('table').DataTable();
+        let styleID = table.row(this).data()[0];
+        let character = table.row(this).data()[1];
+
+        // loads style info into modal
+        $(".modal-body").load("styledetails.php", {
+            StyleID: styleID,
+            Character: character,
+        });
+
+        $('.modal').modal('show');
+    });
+});
+$(document).ready(function() {
+    $("table").DataTable({
+
+        "columnDefs": [{
+                "targets": [0], // hide style ID column
+                "visible": false,
+                "searchable": true
+            },
+            {
+                "targets": [1], // hide character column
+                "visible": false,
+                "searchable": true
+            }
+        ]
+    });
 
 
     // filter style table
