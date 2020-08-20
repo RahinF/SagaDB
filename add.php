@@ -67,7 +67,7 @@ if (isset($_POST['style'])){
     $rarity = $_POST['style']['rarity'];
     $role = $_POST['style']['role'];
     $type = $_POST['style']['type'];
-    $spellAffinity = $_POST['style']['spellaffinity'];
+    $affinity = $_POST['style']['affinity'];
     $desc = $_POST['style']['desc'];
     
     if (isset($name)){ $name = filter_var($name, FILTER_SANITIZE_STRING); }
@@ -86,9 +86,9 @@ if (isset($_POST['style'])){
         
         // style does exist INSERT new row
         else {
-            $sql = 'INSERT INTO `Styles` (`Name`, `Character`, `Title`, `Rarity`, `Role`, `Type`, `SpellAffinity`, `Description`) VALUES (?,?,?,?,?,?,?,?)';
+            $sql = 'INSERT INTO `Styles` (`Name`, `Character`, `Title`, `Rarity`, `Role`, `Type`, `Affinity`, `Description`) VALUES (?,?,?,?,?,?,?,?)';
             $stmt = $pdo->prepare($sql);
-            $stmt->execute([$name, $character, $title, $rarity, $role, $type, $spellAffinity, $desc]);
+            $stmt->execute([$name, $character, $title, $rarity, $role, $type, $affinity, $desc]);
         }
 }
 

@@ -2,18 +2,6 @@
 include 'condb.php';
 include 'functions.php';
 include 'modal.php';
-
-
-// query db
-$sql ='
-SELECT S.ID, S.Character, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.SpellAffinity, 
-E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
-FROM styles S LEFT JOIN eresist E 
-ON S.ID = E.ID';
-
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-
 ?>
 
 <div class="row">
@@ -23,7 +11,8 @@ $stmt->execute();
     </div>
 
     <div class="col-8">
-        <table class="table table-hover table-responsive">
+
+        <table id="style-list" class="table table-hover table-responsive">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -44,50 +33,54 @@ $stmt->execute();
                     <th>Shadow</th>
                 </tr>
             </thead>
-            <tbody class="style-list">
-
-                <?php 
+            <tbody>
 
 
-if($stmt->rowCount() > 0){
-    // prints all rows
-    while ($row = $stmt->fetch()){
-        
-        echo '<tr>';
-    
-        foreach($row as $attribute => $value){
-            echo "<td>{$value}</td>"; 
-        }
-
-        echo '</tr>';
-    }
-    
-}
-
-else {
-    
-    echo "
-    <tr>
-        <td colspan='14' class='dataTables_empty'>
-            No data available in table
-        </td>
-    </tr>
-    ";
-}
-
-
-?>
             </tbody>
         </table>
+
     </div>
 </div>
 
 <script>
 $(document).ready(function() {
 
+    fill_datatable();
+
+    function fill_datatable(filter_rarity = '', filter_role = '', filter_type = '', filter_affinity = '') {
+        var dataTable = $('#style-list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "columnDefs": [{
+                    "targets": [0], // hide style ID column
+                    "visible": false,
+                    "searchable": true
+                },
+                {
+                    "targets": [1], // hide character column
+                    "visible": false,
+                    "searchable": true
+                }
+            ],
+            "ajax": {
+                url: "filterquery.php",
+                type: "POST",
+                data: {
+                    Rarity: filter_rarity,
+                    Role: filter_role,
+                    Type: filter_type,
+                    Affinity: filter_affinity
+                }
+
+            }
+        });
+    }
+
+
     // brings up modal with detailed info on style
-    $("table").on('click', 'tr', function() {
-        let table = $('table').DataTable();
+    $("#style-list").on('click', 'tr', function() {
+        let table = $("#style-list").DataTable();
         let styleID = table.row(this).data()[0];
         let character = table.row(this).data()[1];
 
@@ -99,57 +92,34 @@ $(document).ready(function() {
 
         $('.modal').modal('show');
     });
-});
-$(document).ready(function() {
-    $("table").DataTable({
-
-        "columnDefs": [{
-                "targets": [0], // hide style ID column
-                "visible": false,
-                "searchable": true
-            },
-            {
-                "targets": [1], // hide character column
-                "visible": false,
-                "searchable": true
-            }
-        ]
-    });
 
 
     // filter style table
-    let rarity, role, type, affinity;
+    let filter_rarity, filter_role, filter_type, filter_affinity;
 
     $(".filters").find("button").click(function() {
         if ($(this).parent().hasClass("filter-rarity")) {
-            rarity = $(this).text();
+            filter_rarity = $(this).text();
         }
         if ($(this).parent().hasClass("filter-role")) {
-            role = $(this).text();
+            filter_role = $(this).text();
         }
         if ($(this).parent().hasClass("filter-type")) {
-            type = $(this).text();
+            filter_type = $(this).text();
         }
         if ($(this).parent().hasClass("filter-affinity")) {
-            affinity = $(this).text();
+            filter_affinity = $(this).text();
         }
 
         // toggle active button class
         $(this).siblings().removeClass("btn-dark");
-        $(this).addClass("btn-dark");
+        $(this).toggleClass("btn-dark");
     });
 
     $(".filter-btn").click(function() {
-
-        // .container-fluid is the div the table is in
-        $(".style-list").load("filterquery.php", {
-            Rarity: rarity,
-            Role: role,
-            Type: type,
-            SpellAffinity: affinity
-        });
+        $('#style-list').DataTable().destroy();
+        fill_datatable(filter_rarity, filter_role, filter_type, filter_affinity);
     });
-
 
 });
 </script>

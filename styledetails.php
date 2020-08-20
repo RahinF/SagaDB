@@ -5,9 +5,10 @@ $styleID = $_POST['StyleID'];
 $character = $_POST['Character'];
 
 
+echo '<div class="row">';
 // basic info
 $sql ='
-SELECT `Name`, `Character`, `Title`, `Rarity`, `Role`, `Type`, `SpellAffinity`, `Description`
+SELECT `Name`, `Character`, `Title`, `Rarity`, `Role`, `Type`, `Affinity`, `Description`
 FROM `Styles`
 WHERE `ID` = ?
 ';
@@ -16,10 +17,11 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$styleID]);
 
 // show data
-echo '<h5>Info</h5>';
+
 
 while ($row = $stmt->fetch()){ 
-    echo '<div>';
+    echo '<div class="col">';
+    echo '<h5>Info</h5>';
     foreach($row as $attribute => $value){
         echo "<div>{$attribute}: {$value}</div>"; 
     }
@@ -39,15 +41,19 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$styleID]);
 
 // show data
-echo '<h5>Elemental Resistance</h5>';
+
 
 while ($row = $stmt->fetch()){ 
-    echo '<div>';
+    echo '<div class="col">';
+    echo '<h5>Elemental Resistance</h5>';
     foreach($row as $attribute => $value){
         echo "<div>{$attribute}: {$value}</div>"; 
     }
     echo '</div>';
 }
+
+echo '</div>';
+echo '<div class="row">';
 
 // BP details
 $sql ='
@@ -59,11 +65,9 @@ WHERE `ID` = ?
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$styleID]);
 
-// show data
-echo '<h5>BP</h5>';
-
 while ($row = $stmt->fetch()){ 
-    echo '<div>';
+    echo '<div class="col">';
+    echo '<h5>BP</h5>';
     foreach($row as $attribute => $value){
         echo "<div>{$attribute}: {$value}</div>"; 
     }
@@ -81,14 +85,15 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$character]);
 
 // show data
-echo '<h5>Character</h5>';
+
 
 while ($row = $stmt->fetch()){ 
-    echo '<div>';
+    echo '<div class="col">';
+    echo '<h5>Character</h5>';
     foreach($row as $attribute => $value){
         echo "<div>{$attribute}: {$value}</div>"; 
     }
     echo '</div>';
 }
-
+echo '</div>';
 ?>

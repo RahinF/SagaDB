@@ -34,7 +34,7 @@
         <option value="Staff">Staff</option>
     </select>
 
-    <select name='style[spellaffinity]' required>
+    <select name='style[affinity]' required>
         <option value="None">None</option>
         <option value="Fire">Fire</option>
         <option value="Water">Water</option>
