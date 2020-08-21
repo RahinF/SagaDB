@@ -10,9 +10,9 @@ include 'modal.php';
         <?php include 'filters.php'?>
     </div>
 
-    <div class="col-8">
+    <div class="col-8 table-responsive">
 
-        <table id="style-table" class="table table-hover table-responsive">
+        <table id="style-table" class="table table-hover ">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -23,14 +23,6 @@ include 'modal.php';
                     <th>Role</th>
                     <th>Type</th>
                     <th>Spell Affinity</th>
-                    <th>Slash</th>
-                    <th>Blunt</th>
-                    <th>Pierce</th>
-                    <th>Heat</th>
-                    <th>Cold</th>
-                    <th>Lightning</th>
-                    <th>Sun</th>
-                    <th>Shadow</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,9 +41,8 @@ $(document).ready(function() {
 
     function fill_datatable(filter_rarity = '', filter_role = '', filter_type = '', filter_affinity = '') {
         var dataTable = $('#style-table').DataTable({
-            "processing": true,
             "serverSide": true,
-            "order": [],
+            "order": false,
             "columnDefs": [{
                     "targets": [0], // hide style ID column
                     "visible": false,

@@ -1,25 +1,23 @@
 <?php 
 include 'database_connection.php';
 
-$styleID = $_POST['StyleID'];
+$style_id = $_POST['StyleID'];
 $character = $_POST['Character'];
 
 
 echo '<div class="row">';
+
 // basic info
-$sql ='
+$query ='
 SELECT `Name`, `Character`, `Title`, `Rarity`, `Role`, `Type`, `Affinity`, `Description`
 FROM `Styles`
 WHERE `ID` = ?
 ';
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$styleID]);
+$statement = $connection->prepare($query);
+$statement->execute([$style_id]);
 
-// show data
-
-
-while ($row = $stmt->fetch()){ 
+while ($row = $statement->fetch()){ 
     echo '<div class="col">';
     echo '<h5>Info</h5>';
     foreach($row as $attribute => $value){
@@ -31,19 +29,16 @@ while ($row = $stmt->fetch()){
 
 
 // elemental resistance
-$sql ='
+$query ='
 SELECT `Slash`, `Blunt`, `Pierce`, `Heat`, `Cold`, `Lightning`, `Sun`, `Shadow`
 FROM `EResist`
 WHERE `ID` = ?
 ';
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$styleID]);
+$statement = $connection->prepare($query);
+$statement->execute([$style_id]);
 
-// show data
-
-
-while ($row = $stmt->fetch()){ 
+while ($row = $statement->fetch()){ 
     echo '<div class="col">';
     echo '<h5>Elemental Resistance</h5>';
     foreach($row as $attribute => $value){
@@ -56,16 +51,16 @@ echo '</div>';
 echo '<div class="row">';
 
 // BP details
-$sql ='
+$query ='
 SELECT `LP`, `StartingBP`, `MaxBP`, `RecoverBP`
 FROM `StyleAttributes`
 WHERE `ID` = ?
 ';
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$styleID]);
+$statement = $connection->prepare($query);
+$statement->execute([$style_id]);
 
-while ($row = $stmt->fetch()){ 
+while ($row = $statement->fetch()){ 
     echo '<div class="col">';
     echo '<h5>BP</h5>';
     foreach($row as $attribute => $value){
@@ -75,19 +70,16 @@ while ($row = $stmt->fetch()){
 }
 
 // character details
-$sql ='
+$query ='
 SELECT `Name`, `Gender`, `Series`
 FROM `Characters`
 WHERE `Name` = ?
 ';
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$character]);
+$statement = $connection->prepare($query);
+$statement->execute([$character]);
 
-// show data
-
-
-while ($row = $stmt->fetch()){ 
+while ($row = $statement->fetch()){ 
     echo '<div class="col">';
     echo '<h5>Character</h5>';
     foreach($row as $attribute => $value){
