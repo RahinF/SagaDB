@@ -1,12 +1,12 @@
 <?php 
 // generate character list when adding styles
-function genCharList($pdo){
+function generate_character_list($connection){
 
-    $sql = 'SELECT `Name` FROM `Characters` ORDER BY name ASC';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
+    $query = 'SELECT `Name` FROM `Characters` ORDER BY name ASC';
+    $statement = $connection->prepare($query);
+    $statement->execute();
 
-    while ($row = $stmt->fetch()){
+    while ($row = $statement->fetch()){
         echo "<option value='{$row['Name']}'>{$row['Name']}</option>";
     }
 }

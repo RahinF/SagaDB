@@ -1,5 +1,5 @@
 <?php 
-include 'condb.php';
+include 'database_connection.php';
 include 'functions.php';
 include 'modal.php';
 ?>
@@ -7,12 +7,12 @@ include 'modal.php';
 <div class="row">
 
     <div class="col-3 bg-primary m-3">
-        <?php include 'filters.php';?>
+        <?php include 'filters.php'?>
     </div>
 
     <div class="col-8">
 
-        <table id="style-list" class="table table-hover table-responsive">
+        <table id="style-table" class="table table-hover table-responsive">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -48,7 +48,7 @@ $(document).ready(function() {
     fill_datatable();
 
     function fill_datatable(filter_rarity = '', filter_role = '', filter_type = '', filter_affinity = '') {
-        var dataTable = $('#style-list').DataTable({
+        var dataTable = $('#style-table').DataTable({
             "processing": true,
             "serverSide": true,
             "order": [],
@@ -79,8 +79,8 @@ $(document).ready(function() {
 
 
     // brings up modal with detailed info on style
-    $("#style-list").on('click', 'tr', function() {
-        let table = $("#style-list").DataTable();
+    $("#style-table").on('click', 'tr', function() {
+        let table = $("#style-table").DataTable();
         let styleID = table.row(this).data()[0];
         let character = table.row(this).data()[1];
 
@@ -117,7 +117,7 @@ $(document).ready(function() {
     });
 
     $(".filter-btn").click(function() {
-        $('#style-list').DataTable().destroy();
+        $('#style-table').DataTable().destroy();
         fill_datatable(filter_rarity, filter_role, filter_type, filter_affinity);
     });
 

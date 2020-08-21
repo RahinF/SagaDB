@@ -1,9 +1,9 @@
 <?php
 
 $host = 'localhost';
-$db   = 'sagadb';
-$user = 'root';
-$pass = 'admin';
+$database   = 'sagadb';
+$username = 'root';
+$password = 'admin';
 
 
 $options = [
@@ -11,6 +11,6 @@ $options = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
 ];
 
-$pdo = new PDO("mysql:host=$host;dbname=$db;", $user, $pass, $options);
+$connection = new PDO("mysql:host=$host;dbname=$database;", $username, $password, $options);
 
 ?>

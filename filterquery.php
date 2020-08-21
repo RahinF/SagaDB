@@ -1,8 +1,8 @@
 <?php 
-include 'condb.php';
+include 'database_connection.php';
 
 
-$sql ='
+$query ='
 SELECT S.ID, S.Character, S.Name, S.Title, S.Rarity, S.Role, S.Type, S.Affinity, 
 E.Slash, E.Blunt, E.Pierce, E.Heat, E.Cold, E.Lightning, E.Sun, E.Shadow 
 FROM styles S LEFT JOIN eresist E 
@@ -34,25 +34,25 @@ ON S.ID = E.ID';
 $counter = 0;
 
 if($_POST['Rarity'] !== ''){
-    $sql .= " WHERE S.Rarity = '{$_POST['Rarity']}'";
+    $query .= " WHERE S.Rarity = '{$_POST['Rarity']}'";
     $counter++;
 }
 
 if($_POST['Role'] !== ''){
     
     if($counter > 0){
-        $sql .= " AND S.Role = '{$_POST['Role']}'";
+        $query .= " AND S.Role = '{$_POST['Role']}'";
     } else {
-        $sql .= " WHERE S.Role = '{$_POST['Role']}'";
+        $query .= " WHERE S.Role = '{$_POST['Role']}'";
     }
 }
 
 if($_POST['Type'] !== ''){
         
     if($counter > 0){
-        $sql .= " AND S.Type = '{$_POST['Type']}'";
+        $query .= " AND S.Type = '{$_POST['Type']}'";
     } else {
-        $sql .= " WHERE S.Type = '{$_POST['Type']}'";
+        $query .= " WHERE S.Type = '{$_POST['Type']}'";
     }
     
 }
@@ -60,9 +60,9 @@ if($_POST['Type'] !== ''){
 if($_POST['Affinity'] !== ''){
         
     if($counter > 0){
-        $sql .= " AND S.Affinity = '{$_POST['Affinity']}'";
+        $query .= " AND S.Affinity = '{$_POST['Affinity']}'";
     } else {
-        $sql .= " WHERE S.Affinity = '{$_POST['Affinity']}'";
+        $query .= " WHERE S.Affinity = '{$_POST['Affinity']}'";
     }
     
 }
@@ -71,10 +71,10 @@ if($_POST['Affinity'] !== ''){
 //     $sql .= " and {$field} = '{$field}'"; 
 // }
 
-$stmt = $pdo->query($sql);
-$number_filter_row = $stmt->rowCount();
+$statement = $connection->query($query);
+$number_filter_row = $statement->rowCount();
 //
-$result = $stmt->fetchAll();
+$result = $statement->fetchAll();
 $data = array();
 foreach($result as $row)
 {
@@ -98,17 +98,17 @@ foreach($result as $row)
 
  $data[] = $sub_array;
 }
-function count_all_data($pdo)
+function count_all_data($connection)
 {
- $query = "SELECT *  FROM styles S LEFT JOIN eresist E ON S.ID = E.ID";
- $statement = $pdo->prepare($query);
+ $query = "SELECT * FROM styles S LEFT JOIN eresist E ON S.ID = E.ID";
+ $statement = $connection->prepare($query);
  $statement->execute();
  return $statement->rowCount();
 }
 
 $output = array(
     "draw"       =>  10,
-    "recordsTotal"   =>  count_all_data($pdo),
+    "recordsTotal"   =>  count_all_data($connection),
     "recordsFiltered"  =>  $number_filter_row,
     "data"       =>  $data
    );

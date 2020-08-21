@@ -1,16 +1,16 @@
 <?php
 include 'header.php';
-include 'condb.php';
+include 'database_connection.php';
 
 // query db
-$sql = '
+$query = '
 SELECT C.Name, C.Gender, C.Series, A.STR, A.END, A.DEX, A.AGI, A.INT, A.WIL, A.LOV, A.CHA 
 FROM characters C LEFT JOIN attributes A 
 ON C.Name = A.Name
 ';
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
+$statement = $connection->prepare($query);
+$statement->execute();
 
 ?>
 
@@ -34,7 +34,7 @@ $stmt->execute();
 
 
 // print all rows
-while ($row = $stmt->fetch()){
+while ($row = $statement->fetch()){
     
     echo '<tr>';        
     
@@ -48,7 +48,7 @@ while ($row = $stmt->fetch()){
 
 </table>
 
-<?php include 'footer.php'; ?>
+<?php include 'footer.php'?>
 
 
 <script>

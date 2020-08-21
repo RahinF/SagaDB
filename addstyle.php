@@ -1,8 +1,8 @@
 <h1>Style</h1>
 <form action="add.php" method="post">
 
-    <select name='style[characters]' required>
-        <?php genCharList($pdo)?>
+    <select name='style[character]' required>
+        <?php generate_character_list($connection)?>
     </select>
 
     <input type="text" name="style[name]" placeholder="Name" required>
@@ -44,7 +44,7 @@
         <option value="Dark">Dark</option>
     </select>
 
-    <input type="text" name="style[desc]" placeholder="Description" required>
+    <input type="text" name="style[description]" placeholder="Description" required>
     <input type="submit" class="btn btn-primary" value="Add Style">
 
 </form>

@@ -1,5 +1,5 @@
 <?php 
-include 'condb.php';
+include 'database_connection.php';
 
 $styleID = $_POST['StyleID'];
 $character = $_POST['Character'];
