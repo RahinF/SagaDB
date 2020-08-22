@@ -1,7 +1,7 @@
 <?php 
 include 'database_connection.php';
 
-$query ='SELECT `ID`, `Character`, `Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity` FROM styles';
+$query ='SELECT `ID`, `Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity` FROM Styles';
 
 // filter add to query based on selection
     $counter = 0;
@@ -35,7 +35,6 @@ $data = array();
 foreach($result as $row){
     $sub_array = array();
     $sub_array[] = $row['ID'];
-    $sub_array[] = $row['Character'];
     $sub_array[] = $row['Name'];
     $sub_array[] = $row['Title'];
     $sub_array[] = $row['Rarity'];

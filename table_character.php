@@ -4,9 +4,9 @@ include 'database_connection.php';
 
 // query db
 $query = '
-SELECT C.Name, C.Gender, C.Series, A.STR, A.END, A.DEX, A.AGI, A.INT, A.WIL, A.LOV, A.CHA 
+SELECT C.Name, C.Gender, C.Series, A.Strength, A.Endurance, A.Dexterity, A.agility, A.intelligence, A.willpower, A.love, A.charisma 
 FROM characters C LEFT JOIN attributes A 
-ON C.Name = A.Name
+ON C.ID = A.ID
 ';
 
 $statement = $connection->prepare($query);

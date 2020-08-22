@@ -45,13 +45,15 @@ if (isset($_POST['character'])){
         
         // character does exist INSERT new row
         else {
-            $query = 'INSERT INTO `Characters` (`Name`, `Gender`, `Series`, `Description`) 
+
+            $query = '
+            INSERT INTO `Characters` (`Name`, `Gender`, `Series`, `Description`)
             VALUES (
                 :character_name, 
                 :character_gender, 
                 :character_series, 
                 :character_description
-                )';
+            );';
 
             $statement = $connection->prepare($query);
             $statement->execute([
@@ -60,11 +62,12 @@ if (isset($_POST['character'])){
                 'character_series' => $character_series, 
                 'character_description' => $character_description
                 ]);
-            
-            // Insert Stats
-            $query = 'INSERT INTO `Attributes` (`Name`, `STR`, `END`, `DEX`, `AGI`, `INT`, `WIL`, `LOV`, `CHA`) 
+
+
+            $query = '
+            INSERT INTO `Attributes` (`ID`, `strength`, `endurance`, `dexterity`, `agility`, `intelligence`, `willpower`, `love`, `charisma`) 
             VALUES (
-                :character_name, 
+                :character_id,
                 :character_strength, 
                 :character_endurance, 
                 :character_dexterity, 
@@ -73,11 +76,13 @@ if (isset($_POST['character'])){
                 :character_willpower, 
                 :character_love, 
                 :character_charisma
-                )';
+            );';
 
+        // gets the character_id of the current entry
+            $character_id = $connection->lastInsertId();
             $statement = $connection->prepare($query);
             $statement->execute([
-                'character_name' => $character_name, 
+                'character_id' => $character_id, 
                 'character_strength' => $character_strength, 
                 'character_endurance' => $character_endurance, 
                 'character_dexterity' => $character_dexterity, 
@@ -123,10 +128,9 @@ if (isset($_POST['style'])){
         
         // style does exist INSERT new row
         else {
-            $query = 'INSERT INTO `Styles` (`Name`, `Character`, `Title`, `Rarity`, `Role`, `Type`, `Affinity`, `Description`) 
+            $query = 'INSERT INTO `Styles` (`Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity`, `Description`) 
             VALUES (
                 :style_name,
-                :style_character,
                 :style_title,
                 :style_rarity,
                 :style_role,
@@ -138,7 +142,6 @@ if (isset($_POST['style'])){
             $statement = $connection->prepare($query);
             $statement->execute([
                 'style_name' => $style_name, 
-                'style_character' => $style_character, 
                 'style_title' => $style_title, 
                 'style_rarity' => $style_rarity, 
                 'style_role' => $style_role, 
@@ -149,7 +152,7 @@ if (isset($_POST['style'])){
         }
 }
 
-include 'addchar.php';
-include 'addstyle.php';
+include 'add_character.php';
+include 'add_style.php';
 include 'footer.php';
 ?>

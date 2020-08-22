@@ -1,5 +1,5 @@
 <?php 
 include 'header.php';
-include 'styleList.php';
+include 'table_style.php';
 include 'footer.php';
 ?>

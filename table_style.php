@@ -16,7 +16,6 @@ include 'modal.php';
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
-                    <th>Character</th>
                     <th>Style</th>
                     <th>Title</th>
                     <th>Rarity</th>
@@ -25,14 +24,11 @@ include 'modal.php';
                     <th>Spell Affinity</th>
                 </tr>
             </thead>
-            <tbody>
-
-
-            </tbody>
         </table>
-
     </div>
 </div>
+
+<div class="style-details"></div>
 
 <script>
 $(document).ready(function() {
@@ -45,11 +41,6 @@ $(document).ready(function() {
             "order": false,
             "columnDefs": [{
                     "targets": [0], // hide style ID column
-                    "visible": false,
-                    "searchable": true
-                },
-                {
-                    "targets": [1], // hide character column
                     "visible": false,
                     "searchable": true
                 }
@@ -72,16 +63,12 @@ $(document).ready(function() {
     // brings up modal with detailed info on style
     $("#style-table").on('click', 'tr', function() {
         let table = $("#style-table").DataTable();
-        let styleID = table.row(this).data()[0];
-        let character = table.row(this).data()[1];
+        let style_id = table.row(this).data()[0];
 
         // loads style info into modal
-        $(".modal-body").load("styledetails.php", {
-            StyleID: styleID,
-            Character: character,
+        $(".style-details").load("styledetails.php", {
+            style_id: style_id,
         });
-
-        $('.modal').modal('show');
     });
 
 
