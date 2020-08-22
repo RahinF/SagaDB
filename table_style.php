@@ -11,7 +11,6 @@ include 'modal.php';
     </div>
 
     <div class="col-8 table-responsive">
-
         <table id="style-table" class="table table-hover ">
             <thead class="thead-dark">
                 <tr>
@@ -39,6 +38,7 @@ $(document).ready(function() {
         var dataTable = $('#style-table').DataTable({
             "serverSide": true,
             "order": false,
+            "searching": false,
             "columnDefs": [{
                     "targets": [0], // hide style ID column
                     "visible": false,
@@ -60,12 +60,11 @@ $(document).ready(function() {
     }
 
 
-    // brings up modal with detailed info on style
+    //loads style info into div
     $("#style-table").on('click', 'tr', function() {
         let table = $("#style-table").DataTable();
         let style_id = table.row(this).data()[0];
 
-        // loads style info into modal
         $(".style-details").load("styledetails.php", {
             style_id: style_id,
         });
@@ -94,6 +93,7 @@ $(document).ready(function() {
         $(this).toggleClass("btn-dark");
     });
 
+    // displays filtered data
     $(".filter-btn").click(function() {
         $('#style-table').DataTable().destroy();
         fill_datatable(filter_rarity, filter_role, filter_type, filter_affinity);

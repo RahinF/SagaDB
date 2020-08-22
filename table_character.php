@@ -4,9 +4,8 @@ include 'database_connection.php';
 
 // query db
 $query = '
-SELECT C.Name, C.Gender, C.Series, A.Strength, A.Endurance, A.Dexterity, A.agility, A.intelligence, A.willpower, A.love, A.charisma 
-FROM characters C LEFT JOIN attributes A 
-ON C.ID = A.ID
+SELECT C.Name, C.Gender, C.Series 
+FROM characters C
 ';
 
 $statement = $connection->prepare($query);
@@ -20,14 +19,6 @@ $statement->execute();
             <th>Name</th>
             <th>Gender</th>
             <th>Series</th>
-            <th>STR</th>
-            <th>END</th>
-            <th>DEX</th>
-            <th>AGI</th>
-            <th>INT</th>
-            <th>WIL</th>
-            <th>LOV</th>
-            <th>CHA</th>
         </tr>
     </thead>
     <?php 
