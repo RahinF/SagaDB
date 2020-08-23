@@ -4,7 +4,8 @@ include 'database_connection.php';
 $style_id = $_POST['style_id'];
 
 
-
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 // Style info
 $query ='
 SELECT `Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity`, `Description`
@@ -17,19 +18,24 @@ $statement->execute(['style_id' => $style_id]);
 
 echo '<div class="row">';
 while ($row = $statement->fetch()){ 
-    $style_name = $row['Name'];
-    $style_title = $row['Title'];
-    $style_rarity = $row['Rarity'];
-    $style_role = $row['Role'];
-    $style_type = $row['Type'];
-    $style_affinity = $row['Affinity'];
+    $style_name        = $row['Name'];
+    $style_title       = $row['Title'];
+    $style_rarity      = $row['Rarity'];
+    $style_role        = $row['Role'];
+    $style_type        = $row['Type'];
+    $style_affinity    = $row['Affinity'];
     $style_description = $row['Description'];
 // create_basic_information_layout();
 }
 echo '</div>';
 echo '</div>';
 
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 echo '<div class="row">';
+
 
 // elemental resistance
 $query ='
@@ -51,7 +57,8 @@ while ($row = $statement->fetch()){
 }
 
 echo '</div>';
-
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 
 echo '<div class="row">';
@@ -76,9 +83,12 @@ while ($row = $statement->fetch()){
 }
 
 echo '</div>';
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 echo '<div class="row">';
 
-// abilities
+// Skills
 $query ='
 SELECT SK.ID, SK.Name, SK.Class, SK.Power, SK.Description, SK.Cost, SK.AwakenLimit AS Awaken 
 FROM `Styles_Skills` SS join `Skills` SK 
@@ -87,10 +97,10 @@ ON SS.SkillID = SK.ID where SS.StyleID = :style_id';
 $statement = $connection->prepare($query);
 $statement->execute(['style_id' => $style_id]);
 
-echo '<h5>Abilites</h5>';
+echo '<h5>Skills</h5>';
 
 while ($row = $statement->fetch()){ 
-    echo '<div class="col">';
+    echo '<div class="row">';
 
     // gets the names of the skills elements
     $skill_id = $row['ID'];
@@ -106,19 +116,56 @@ while ($row = $statement->fetch()){
 
 }
    
+echo '</div>';
+    echo '</div>';
+echo '</div>';
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+echo '<div class="container">';
+
+// abilities
+$query ='
+SELECT A.ID, A.Name, A.Description
+FROM `Styles_Abilities` S JOIN `Abilities` A 
+ON S.AbilityID = A.ID  where S.StyleID = :style_id';
+
+$statement = $connection->prepare($query);
+$statement->execute(['style_id' => $style_id]);
+
+echo '<div class="col">';
+echo '<h5 class="p-2 bg-primary text-white rounded-pill text-center">Abilites</h5>';
+echo '</div>';
+echo '<div class="row">';
+while ($row = $statement->fetch()){ 
+    echo '<div class="col">';
+
+    // gets the names of the skills elements
+    $skill_id = $row['ID'];
+    get_element_name($connection, $skill_id);
     
 
 
-
-
+    
+    
+    foreach($row as $attribute => $value){
+        echo "<div class='row'>{$value}</div>"; 
+    }
     echo '</div>';
+}
+   
 
+echo '</div>'; 
 echo '</div>';
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 //diplay skills of the same character that styles dont have
 $query ='
-SELECT S.Name, S.Title, S.Rarity, A.ID, A.Name AS Skill, A.Class, A.Power, A.Description, A.Cost, A.AwakenLimit AS Awaken
+SELECT S.Name, S.Title, S.Rarity, 
+A.ID, A.Name AS Skill, A.Class, A.Power, A.Description, A.Cost, A.AwakenLimit AS Awaken
+
 FROM `Styles` S JOIN `Characters_Styles` CS ON S.ID = CS.StyleID
 JOIN `Styles_Skills` SS ON CS.StyleID = SS.StyleID
 JOIN `Skills` A ON SS.SkillID = A.ID
@@ -136,6 +183,8 @@ WHERE SS.StyleID = :style_id)';
 $statement = $connection->prepare($query);
 $statement->execute(['style_id' => $style_id]);
 ?>
+
+
 <div class="container">
     <div class="col">
         <h5 class="p-2 bg-primary text-white rounded-pill text-center">Inheritable Skills</h5>
@@ -148,22 +197,24 @@ while ($row = $statement->fetch()){
 
 echo '</div>';
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 
 function create_inheritable_skill_layout($connection, $row){
 
-    $style_name = $row['Name'];
-    $style_title = $row['Title'];
-    $style_rarity = $row['Rarity'];
-    $skill_name = $row['Skill'];
-    $skill_class = $row['Class'];
-    $skill_power = $row['Power'];
+    $style_name        = $row['Name'];
+    $style_title       = $row['Title'];
+    $style_rarity      = $row['Rarity'];
+    $skill_id          = $row['ID'];
+    $skill_name        = $row['Skill'];
+    $skill_class       = $row['Class'];
+    $skill_power       = $row['Power'];
     $skill_description = $row['Description'];
-    $skill_cost = $row['Cost'];
-    $skill_awaken = $row['Awaken'];
+    $skill_cost        = $row['Cost'];
+    $skill_awaken      = $row['Awaken'];
 
     // gets the elements of skills
-    $skill_id = $row['ID'];
     $query = 'SELECT E.Element FROM `Skills` S JOIN `Elements` E ON S.ID = E.ID WHERE S.ID = :skill_id';
     $statement = $connection->prepare($query);
     $statement->execute(['skill_id' => $skill_id]);
@@ -171,20 +222,32 @@ function create_inheritable_skill_layout($connection, $row){
     ?>
     <div class="col">
         <div class="container border-bottom">
+
             <div class="row">
-                <div class="col-sm"><?= $style_name ?></div>
-                <div class="col-sm">[<?= $style_title ?>]</div>
-                <div class="col-sm">Rarity: <?= $style_rarity ?></div>
+                <div class="col-sm">
+                    <?= $style_name ?>
+                </div>
+                <div class="col-sm">
+                    [<?= $style_title ?>]
+                </div>
+                <div class="col-sm">
+                    Rarity: <?= $style_rarity ?>
+                </div>
             </div>
+
             <div class="row">
-                <div class="col-sm">Skill ID: <?= $skill_id ?></div>
-                <div class="col-sm">Skill: <?= $skill_name ?></div>
+                <div class="col-sm">
+                    Skill: <?= $skill_name ?>
+                </div>
                 <div>
                     <?php while($row = $statement->fetch()){ 
                         echo $row['Element'];
                     }?>
                 </div>
+
             </div>
+
+
             <div class="row">
                 <div class="col-sm">Description: <?= $skill_description ?></div>
             </div>
@@ -199,6 +262,9 @@ function create_inheritable_skill_layout($connection, $row){
     </div>
     <?php
 }
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 
 // function create_basic_information_layout(){

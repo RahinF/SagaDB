@@ -27,7 +27,7 @@ include 'modal.php';
     </div>
 </div>
 
-<div class="style-details"></div>
+<div class="style-details container-fluid col"></div>
 
 <script>
 $(document).ready(function() {
@@ -40,11 +40,10 @@ $(document).ready(function() {
             "order": false,
             "searching": false,
             "columnDefs": [{
-                    "targets": [0], // hide style ID column
-                    "visible": false,
-                    "searchable": true
-                }
-            ],
+                "targets": [0], // hide style ID column
+                "visible": false,
+                "searchable": true
+            }],
             "ajax": {
                 url: "filterquery.php",
                 type: "POST",

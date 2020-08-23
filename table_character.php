@@ -5,8 +5,7 @@ include 'database_connection.php';
 // query db
 $query = '
 SELECT C.Name, C.Gender, C.Series 
-FROM characters C
-';
+FROM Characters C';
 
 $statement = $connection->prepare($query);
 $statement->execute();

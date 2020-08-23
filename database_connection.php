@@ -1,7 +1,7 @@
 <?php
 
-$host = 'localhost';
-$database   = 'sagadb';
+$host     = 'localhost';
+$database = 'sagadb';
 $username = 'root';
 $password = 'admin';
 

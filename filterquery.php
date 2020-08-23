@@ -33,7 +33,7 @@ $result = $statement->fetchAll();
 
 $data = array();
 foreach($result as $row){
-    $sub_array = array();
+    $sub_array  = array();
     $sub_array[] = $row['ID'];
     $sub_array[] = $row['Name'];
     $sub_array[] = $row['Title'];
@@ -52,10 +52,10 @@ function count_all_data($connection){
 }
 
 $output = array(
-    "draw"       =>  $number_filter_row,
-    "recordsTotal"   =>  count_all_data($connection),
-    "recordsFiltered"  =>  $number_filter_row,
-    "data"       =>  $data
+    "draw"            =>  $number_filter_row,
+    "recordsTotal"    =>  count_all_data($connection),
+    "recordsFiltered" =>  $number_filter_row,
+    "data"            =>  $data
 );
 
 echo json_encode($output);
