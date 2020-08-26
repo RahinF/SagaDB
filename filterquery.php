@@ -1,4 +1,5 @@
 <?php 
+
 include 'database_connection.php';
 
 $query ='SELECT `ID`, `Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity` FROM Styles';
@@ -11,7 +12,7 @@ $query ='SELECT `ID`, `Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity` FROM
 
     foreach($filter as $table_column => $search_value){
         
-        if(!empty($search_value)){
+        if($search_value !== "none"){
 
             // first option selected
             if($counter === 0){

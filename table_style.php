@@ -1,7 +1,6 @@
 <?php 
 include 'database_connection.php';
 include 'functions.php';
-include 'modal.php';
 ?>
 
 <div class="row">
@@ -34,7 +33,9 @@ $(document).ready(function() {
 
     fill_datatable();
 
-    function fill_datatable(filter_rarity = '', filter_role = '', filter_type = '', filter_affinity = '') {
+    function fill_datatable(filter_rarity = 'none', filter_role = 'none', filter_type = 'none',
+        filter_affinity = 'none') {
+
         var dataTable = $('#style-table').DataTable({
             "serverSide": true,
             "order": false,
@@ -69,34 +70,33 @@ $(document).ready(function() {
         });
     });
 
+    // clears all filters
+    $("#filter-clear").click(function() {
+        $('#style-table').DataTable().destroy();
+        fill_datatable();
+    });
 
     // filter style table
-    let filter_rarity, filter_role, filter_type, filter_affinity;
+    $("#filter-btn").click(function() {
 
-    $(".filters").find("button").click(function() {
-        if ($(this).parent().hasClass("filter-rarity")) {
-            filter_rarity = $(this).text();
-        }
-        if ($(this).parent().hasClass("filter-role")) {
-            filter_role = $(this).text();
-        }
-        if ($(this).parent().hasClass("filter-type")) {
-            filter_type = $(this).text();
-        }
-        if ($(this).parent().hasClass("filter-affinity")) {
-            filter_affinity = $(this).text();
-        }
+        let filter_rarity = $("#filter-rarity option:selected").val();
+        let filter_role = $("#filter-role option:selected").val();
+        let filter_type = $("#filter-type option:selected").val();
+        let filter_affinity = $("#filter-affinity option:selected").val();
 
-        // toggle active button class
-        $(this).siblings().removeClass("btn-dark");
-        $(this).toggleClass("btn-dark");
+        if (!(
+                filter_rarity === "none" &&
+                filter_role === "none" &&
+                filter_type === "none" &&
+                filter_affinity === "none"
+            )) {
+
+            $('#style-table').DataTable().destroy();
+            fill_datatable(filter_rarity, filter_role, filter_type, filter_affinity);
+        }
     });
 
-    // displays filtered data
-    $(".filter-btn").click(function() {
-        $('#style-table').DataTable().destroy();
-        fill_datatable(filter_rarity, filter_role, filter_type, filter_affinity);
-    });
+
 
 });
 </script>

@@ -13,4 +13,6 @@ $options = [
 
 $connection = new PDO("mysql:host=$host;dbname=$database;", $username, $password, $options);
 
+
+
 ?>

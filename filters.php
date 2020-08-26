@@ -1,45 +1,48 @@
+<?php
+
+$filter_rarity     = ["SS", "S", "A"];
+$filter_role       = ["Attacker", "Defender", "Jammer", "Supporter"];
+$filter_type       = ["Sword", "G.Sword", "Axe", "Club", "M.Arts", "Gun", "S.Sword", "Spear", "Bow", "Staff"];
+$filter_affinity   = ["None", "Fire", "Water", "Earth", "Wind", "Light", "Dark"];
+
+// creates options of filters from array
+function create_filter_list($filter){
+    
+    echo "<option value='none' selected disabled hidden>Select an option</option>";
+
+    for($i = 0; $i < count($filter); $i++) {
+        echo "<option value='{$filter[$i]}'>$filter[$i]</option>";
+    } 
+}
+
+
+?>
+
+
 <div class="filters">
     <h4>filters</h4>
 
     <h5>Rarity</h5>
-    <div class="filter-rarity btn-group">
-        <button class="btn btn-danger">SS</button>
-        <button class="btn btn-danger">S</button>
-        <button class="btn btn-danger">A</button>
-    </div>
+    <select id="filter-rarity" class="btn btn-danger">
+        <?php create_filter_list($filter_rarity)?>
+    </select>
 
     <h5>Role</h5>
-    <div class="filter-role btn-group">
-        <button class="btn btn-danger">Attacker</button>
-        <button class="btn btn-danger">Defender</button>
-        <button class="btn btn-danger">Jammer</button>
-        <button class="btn btn-danger">Supporter</button>
-    </div>
+    <select id="filter-role" class="btn btn-danger">
+        <?php create_filter_list($filter_role)?>
+    </select>
+
 
     <h5>Type</h5>
-    <div class="filter-type btn-group">
-        <button class="btn btn-danger">Sword</button>
-        <button class="btn btn-danger">G.Sword</button>
-        <button class="btn btn-danger">Axe</button>
-        <button class="btn btn-danger">Club</button>
-        <button class="btn btn-danger">M.Arts</button>
-        <button class="btn btn-danger">Gun</button>
-        <button class="btn btn-danger">S.Sword</button>
-        <button class="btn btn-danger">Spear</button>
-        <button class="btn btn-danger">Bow</button>
-        <button class="btn btn-danger">Staff</button>
-    </div>
+    <select id="filter-type" class="btn btn-danger">
+        <?php create_filter_list($filter_type)?>
+    </select>
 
     <h5>Spell Affinity</h5>
-    <div class="filter-affinity btn-group">
-        <button class="btn btn-danger">None</button>
-        <button class="btn btn-danger">Fire</button>
-        <button class="btn btn-danger">Water</button>
-        <button class="btn btn-danger">Earth</button>
-        <button class="btn btn-danger">Wind</button>
-        <button class="btn btn-danger">Light</button>
-        <button class="btn btn-danger">Dark</button>
-    </div>
+    <select id="filter-affinity" class="btn btn-danger">
+        <?php create_filter_list($filter_affinity)?>
+    </select>
 
-    <button class="filter-btn btn btn-light">Filter</button>
+    <button id="filter-btn" class="btn btn-light">Filter</button>
+    <button id="filter-clear" class="btn btn-info">Clear</button>
 </div>
