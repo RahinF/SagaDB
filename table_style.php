@@ -20,6 +20,7 @@ include 'functions.php';
                     <th>Role</th>
                     <th>Type</th>
                     <th>Spell Affinity</th>
+                    <th>Description</th>
                 </tr>
             </thead>
         </table>
@@ -40,10 +41,38 @@ $(document).ready(function() {
             "serverSide": true,
             "order": false,
             "searching": false,
+            "columns": [{
+                    data: 'StyleID'
+                },
+                {
+                    data: 'Name'
+                },
+                {
+                    data: 'Title'
+                },
+                {
+                    data: 'Rarity'
+                },
+                {
+                    data: 'Role'
+                },
+                {
+                    data: 'Type'
+                },
+                {
+                    data: 'Affinity'
+                },
+                {
+                    data: 'Description'
+                }
+            ],
             "columnDefs": [{
                 "targets": [0], // hide style ID column
                 "visible": false,
                 "searchable": true
+            }, {
+                "targets": [7], // hide description column
+                "visible": false,
             }],
             "ajax": {
                 url: "filterquery.php",
@@ -63,7 +92,7 @@ $(document).ready(function() {
     //loads style info into div
     $("#style-table").on('click', 'tr', function() {
         let table = $("#style-table").DataTable();
-        let style_id = table.row(this).data()[0];
+        let style_id = table.row(this).data()['StyleID']; // gets the id of the style from the row
 
         $(".style-details").load("styledetails.php", {
             style_id: style_id,

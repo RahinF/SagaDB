@@ -1,61 +1,50 @@
 <?php 
 
-include 'database_connection.php';
+include_once 'database_connection.php';
+include_once 'query_database.php';
 
-$query ='SELECT `ID`, `Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity` FROM Styles';
+$query = new QueryDatabase;
 
-// filter add to query based on selection
-    $counter = 0;
+$filter_rarity   = $_POST['Rarity'];
+$filter_role     = $_POST['Role'];
+$filter_type     = $_POST['Type'];
+$filter_affinity = $_POST['Affinity'];
+
+
+if($filter_rarity === '' && $filter_role === '' && $filter_type === '' && $filter_affinity === ''){
     
-    // creates an array of filter types (rarity, role, type, affinity)
-    $filter = array_slice($_POST, 5, 8);
+    $data = $query->basic_query("Styles");  // if no filters are selected run basic query
+} 
 
+else {
+    
+    $filter = array_slice($_POST, 5, 8); // creates an array of filter types (rarity, role, type, affinity)
+
+    $filters = array();
+    
     foreach($filter as $table_column => $search_value){
         
         if($search_value !== "none"){
-
-            // first option selected
-            if($counter === 0){
-                $query .= " WHERE {$table_column} = '{$search_value}'";
-                $counter++;
-            } 
-            
-            // if more than 1 option is selected
-            else { 
-            $query .= " and {$table_column} = '{$search_value}'"; 
-            }
+            $filters[$table_column] = $search_value;
         } 
     }
 
-
-$statement = $connection->query($query);
-$number_filter_row = $statement->rowCount();
-$result = $statement->fetchAll();
-
-$data = array();
-foreach($result as $row){
-    $sub_array  = array();
-    $sub_array[] = $row['ID'];
-    $sub_array[] = $row['Name'];
-    $sub_array[] = $row['Title'];
-    $sub_array[] = $row['Rarity'];
-    $sub_array[] = $row['Role'];
-    $sub_array[] = $row['Type'];
-    $sub_array[] = $row['Affinity'];
-
-    $data[] = $sub_array;
+    $data = $query->filter_query($filters); // run filtered query
 }
-function count_all_data($connection){
-    $query = 'SELECT * FROM styles';
-    $statement = $connection->prepare($query);
-    $statement->execute();
-    return $statement->rowCount();
+
+
+
+if(!isset($data)){
+    $number_of_rows = 1; // if filtered query fails
+    $data['data'] = []; // display empty table
+} else {
+    $number_of_rows = count($data);
 }
 
 $output = array(
-    "draw"            =>  $number_filter_row,
-    "recordsTotal"    =>  count_all_data($connection),
-    "recordsFiltered" =>  $number_filter_row,
+    "draw"            =>  $number_of_rows,
+    "recordsTotal"    =>  $number_of_rows, 
+    "recordsFiltered" =>  $number_of_rows, // filtered styles in db
     "data"            =>  $data
 );
 

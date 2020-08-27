@@ -1,8 +1,31 @@
+<?php 
+
+include_once 'database_connection.php';
+include_once 'query_database.php';
+
+?>
+
 <h1>Style</h1>
 <form action="add.php" method="post">
 
     <select name='style[character]' required>
-        <?php generate_character_list($connection)?>
+
+        <?php 
+        
+        $query = new QueryDatabase;
+        $data = $query->basic_query("Characters");
+        
+        // generate character list when adding styles
+        for($i = 0; $i < count($data); $i++){
+        
+            $character_id   = $data[$i]['CharacterID'];
+            $character_name = $data[$i]['Name'];
+        
+            echo "<option value='{$character_id}'>{$character_name}</option>";
+        
+        }
+        ?>
+
     </select>
 
     <input type="text" name="style[name]" placeholder="Name" required>

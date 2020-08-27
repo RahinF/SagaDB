@@ -1,138 +1,169 @@
 <?php 
-include 'database_connection.php';
+
+include_once 'database_connection.php';
+include_once 'query_database.php';
+
+$query = new QueryDatabase;
+
 
 $style_id = $_POST['style_id'];
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Style info
-$query ='
-SELECT `Name`, `Title`, `Rarity`, `Role`, `Type`, `Affinity`, `Description`
-FROM `Styles` WHERE `ID` = :style_id';
-
-$statement = $connection->prepare($query);
-$statement->execute(['style_id' => $style_id]);
-
-
-
-echo '<div class="container">';
-while ($row = $statement->fetch()){ 
-    $style_name        = $row['Name'];
-    $style_title       = $row['Title'];
-    $style_rarity      = $row['Rarity'];
-    $style_role        = $row['Role'];
-    $style_type        = $row['Type'];
-    $style_affinity    = $row['Affinity'];
-    $style_description = $row['Description'];
-// create_basic_information_layout();
-}
-echo '</div>';
 
 
 
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-echo '<div class="container">';
+$data = $query->basic_query("Styles", "StyleID", $style_id);
+$data = $data[0];
 
 
-// elemental resistance
-$query ='
-SELECT `Slash`, `Blunt`, `Pierce`, `Heat`, `Cold`, `Lightning`, `Sun`, `Shadow`
-FROM `EResist` WHERE `ID` = :style_id';
 
-$statement = $connection->prepare($query);
-$statement->execute(['style_id' => $style_id]);
+$style_name        = $data['Name'];
+$style_title       = $data['Title'];
+$style_rarity      = $data['Rarity'];
+$style_role        = $data['Role'];
+$style_type        = $data['Type'];
+$style_affinity    = $data['Affinity'];
+$style_description = $data['Description'];
 
-while ($row = $statement->fetch()){ 
-    echo '<div class="col">';
-    echo '<h5>Elemental Resistance</h5>';
-    echo '<div class="row">';
-    foreach($row as $attribute => $value){
-        echo "<div class='col'>{$attribute}: {$value}</div>"; 
-    }
-    echo '</div>';
-    echo '</div>';
-}
-
-echo '</div>';
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-
-echo '<div class="container">';
-
-// character details
-$query ='
-SELECT C.Name, C.Gender, C.Series 
-FROM `Characters` C JOIN `Characters_Styles`CS 
-ON C.ID = CS.characterid
-WHERE CS.styleID = :style_id';
-
-$statement = $connection->prepare($query);
-$statement->execute(['style_id' => $style_id]);
-
-while ($row = $statement->fetch()){ 
-    echo '<div class="col">';
-    echo '<h5>Character</h5>';
-    foreach($row as $attribute => $value){
-        echo "<div>{$attribute}: {$value}</div>"; 
-    }
-    echo '</div>';
-}
-
-echo '</div>';
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-echo '<div class="container">';
-
-// Skills
-$query ='
-SELECT SK.ID, SK.Name, SK.Class, SK.Power, SK.Description, SK.Cost, SK.AwakenLimit AS Awaken 
-FROM `Styles_Skills` SS join `Skills` SK 
-ON SS.SkillID = SK.ID where SS.StyleID = :style_id';
-
-$statement = $connection->prepare($query);
-$statement->execute(['style_id' => $style_id]);
-
-echo '<h5>Skills</h5>';
-
-while ($row = $statement->fetch()){ 
-    echo '<div class="row">';
-
-    // gets the names of the skills elements
-    $skill_id = $row['ID'];
-    print_r($result = get_element_name($connection, $skill_id));
-    
-
-
-    
-    
-    foreach($row as $attribute => $value){
-        echo "<div>{$attribute}: {$value}</div>"; 
-    }
-
-}
-
-echo '</div>';
-echo '</div>';
-echo '</div>';
-
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
 ?>
 
 
+
 <div class="container">
-    <div class="col">
-        <h5 class="p-2 bg-primary text-white rounded-pill text-center">Abilites</h5>
-    </div>
-    <div class="row">
-        <?php include 'style_abilities.php'?>
-    </div>
+    <h5>Style info</h5>
+    <div><?= $style_name ?></div>
+    <div><?= $style_title ?></div>
+    <div><?= $style_rarity ?></div>
+    <div><?= $style_role ?></div>
+    <div><?= $style_type ?></div>
+    <div><?= $style_affinity ?></div>
+    <div><?= $style_description ?></div>
 </div>
+
+
+
+<?php
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// elemental resistance
+
+$data = $query->basic_query("Resistances", "StyleID", $style_id);
+$data = $data[0];
+
+
+
+$resistance_slash     = $data['Slash'];
+$resistance_blunt     = $data['Blunt'];
+$resistance_pierce    = $data['Pierce'];
+$resistance_heat      = $data['Heat'];
+$resistance_cold      = $data['Cold'];
+$resistance_lightning = $data['Lightning'];
+$resistance_sun       = $data['Sun'];
+$resistance_shadow    = $data['Shadow'];
+
+?>
+
+
+
+<div class="container">
+    <h5>Elemental Resistance</h5>
+    <div><?= $resistance_slash ?></div>
+    <div><?= $resistance_blunt ?></div>
+    <div><?= $resistance_pierce ?></div>
+    <div><?= $resistance_heat ?></div>
+    <div><?= $resistance_cold ?></div>
+    <div><?= $resistance_lightning ?></div>
+    <div><?= $resistance_sun ?></div>
+    <div><?= $resistance_shadow ?></div>
+</div>
+
+<?php
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// Character Info
+
+$data = $query->join_query("Characters", "Characters_Styles", "StyleID", $style_id);
+$data = $data[0];
+
+
+
+$character_name   = $data['Name'];
+$character_gender = $data['Gender'];
+$character_series = $data['Series'];
+
+?>
+
+
+
+<div class="container">
+    <h5>Character Info</h5>
+    <div><?= $character_name ?></div>
+    <div><?= $character_gender ?></div>
+    <div><?= $character_series ?></div>
+</div>
+
+
+<!-- ////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////// -->
+
+<!-- // Skills -->
+
+
+<div class="container">
+    <h5>Skills</h5>
+
+    <?php
+
+        $data = $query->join_query("Styles_Skills", "Skills", "StyleID", $style_id);
+
+        if(!empty($data)){
+            
+            for($i = 0; $i < count($data); $i++){
+                    
+                $skill_name         = $data[$i]['Name'];
+                $skill_class        = $data[$i]['Class'];
+                $skill_power        = $data[$i]['Power'];
+                $skill_description  = $data[$i]['Description'];
+                $skill_cost         = $data[$i]['Cost'];
+                $skill_awaken_limit = $data[$i]['AwakenLimit'];
+
+    ?>
+
+    <div class="col">
+
+        <div class='row'><?= $skill_name ?></div>
+        <div class='row'><?= $skill_description ?></div>
+        <div class='row'><?= $skill_class ?></div>
+        <div class='row'><?= $skill_power ?></div>
+        <div class='row'><?= $skill_cost ?></div>
+        <div class='row'><?= $skill_awaken_limit ?></div>
+
+    </div>
+
+
+
+
+    <?php
+            }
+        }
+?>
+
+</div>
+
+
+
+
+<!-- ////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////// -->
+
+
+<?php include 'style_abilities.php'?>
+
 
 
 <?php
@@ -154,16 +185,6 @@ echo '</div>';
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-
-// function create_basic_information_layout(){
-//     echo '<div class="col">';
-//     echo '<h5>Info</h5>';
-//     echo '<div class="row">';
-//     foreach($row as $attribute => $value){
-//         echo "<div>{$attribute}: {$value}</div>"; 
-//     }
-//     echo '</div>';
-// }
 
 
 // gets the elements of skills
