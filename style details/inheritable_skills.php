@@ -1,3 +1,8 @@
+<div class="container">
+    <div class="col">
+        <h5 class="p-2 bg-primary text-white rounded-pill text-center">Inheritable Skills</h5>
+    </div>
+
 <?php
 
 
@@ -7,9 +12,9 @@ if(!empty($data)){
     
     for($i = 0; $i < count($data); $i++){
         
-        $inherit_skill_name        = $data[$i]['Name'];
-        $inherit_skill_title       = $data[$i]['Title'];
-        $inherit_skill_rarity      = $data[$i]['Rarity'];
+        $inherit_style_name        = $data[$i]['Name'];
+        $inherit_style_title       = $data[$i]['Title'];
+        $inherit_style_rarity      = $data[$i]['Rarity'];
         $inherit_skill_id          = $data[$i]['ID'];
         $inherit_skill_name        = $data[$i]['Skill'];
         $inherit_skill_class       = $data[$i]['Class'];
@@ -31,9 +36,9 @@ if(!empty($data)){
 
 
         <div class="row">
-            <div class="col-sm"><?= $inherit_skill_name ?></div>
-            <div class="col-sm">[<?= $inherit_skill_title ?>]</div>
-            <div class="col-sm">Rarity: <?= $inherit_skill_rarity ?></div>
+            <div class="col-sm"><?= $inherit_style_name ?></div>
+            <div class="col-sm">[<?= $inherit_style_title ?>]</div>
+            <div class="col-sm">Rarity: <?= $inherit_style_rarity ?></div>
         </div>
 
 
@@ -45,15 +50,22 @@ if(!empty($data)){
 
 
                 <?php // get the elements of skills
-                    $elements = $query->join_query("Skills", "Elements", "SkillID", $inherit_skill_id);
+                    $elements = $query->join_query("Skills", "Elements", "skill_id", $inherit_skill_id);
 
                     if(!empty($elements)){
                         for($k = 0; $k < count($elements); $k++){
+                            $element_name = $elements[$k]["Element"];
+                ?>
 
-                            echo $elements[$k]["Element"]; 
-        
-                        }
-                    }
+
+                            <div class="col-sm">Element: <?= $element_name ?></div>
+
+
+
+
+                <?php
+                        } // end element for loop
+                    } // end element if statement
                 ?>
 
 
@@ -81,6 +93,11 @@ if(!empty($data)){
 
 
 
+
 <?php
     } // end for loop
 } // end if statement
+?>
+
+
+</div>

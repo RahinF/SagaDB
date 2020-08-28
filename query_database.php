@@ -112,7 +112,7 @@ class QueryDatabase extends DatabaseConnection {
                 S.Name,
                 S.Title,
                 S.Rarity,
-                A.SkillID AS ID,
+                A.Skill_ID AS ID,
                 A.Name AS Skill,
                 A.Class,
                 A.Power,
@@ -122,27 +122,27 @@ class QueryDatabase extends DatabaseConnection {
         
             FROM 
                 `Styles` S 
-                JOIN `Characters_Styles` CS ON S.StyleID = CS.StyleID
-                JOIN `Styles_Skills` SS ON CS.StyleID = SS.StyleID
-                JOIN `Skills` A ON SS.SkillID = A.SkillID
+                JOIN `Characters_Styles` CS ON S.Style_ID = CS.Style_ID
+                JOIN `Styles_Skills` SS ON CS.Style_ID = SS.Style_ID
+                JOIN `Skills` A ON SS.Skill_ID = A.Skill_ID
             
             WHERE 
-                CS.CharacterID = (
+                CS.Character_ID = (
                     SELECT
-                        DISTINCT CS.CharacterID
+                        DISTINCT CS.Character_ID
                     FROM
                         `Characters_Styles` CS
                     WHERE
-                        CS.StyleID = :style_id
+                        CS.Style_ID = :style_id
                 )
             
-            AND SS.SkillID NOT IN (
+            AND SS.Skill_ID NOT IN (
                 SELECT
-                    DISTINCT SS.SkillID
+                    DISTINCT SS.Skill_ID
                 FROM
                     `Styles_Skills` SS
                 WHERE
-                    SS.StyleID = :style_id
+                    SS.Style_ID = :style_id
                 )
 
         ";

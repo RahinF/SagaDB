@@ -1,6 +1,5 @@
 <?php
 include 'database_connection.php';
-include 'functions.php';
 include 'header.php';
 
 

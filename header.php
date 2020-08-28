@@ -23,6 +23,8 @@
     <!-- JQuery DataTables -->
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"></script>
 </head>
 
 <body>
@@ -33,4 +35,3 @@
             <li><a class="nav-link" href="table_character.php">Characters</a></li>
         </ul>
     </nav>
-    <div class="container-fluid">

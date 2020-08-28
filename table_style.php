@@ -1,33 +1,41 @@
 <?php 
-include 'database_connection.php';
-include 'functions.php';
+include_once 'database_connection.php';
+
 ?>
+<div class="container">
 
-<div class="row">
 
-    <div class="col-3 bg-primary m-3">
-        <?php include 'filters.php'?>
-    </div>
+        <div class="row">
 
-    <div class="col-8 table-responsive">
-        <table id="style-table" class="table table-hover ">
-            <thead class="thead-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Style</th>
-                    <th>Title</th>
-                    <th>Rarity</th>
-                    <th>Role</th>
-                    <th>Type</th>
-                    <th>Spell Affinity</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
+        
+            <div class="bg-primary col">
+                <?php include 'filter_layout.php'?>
+            </div>
+
+            <div>
+                <table id="style-table" class="table table-hover col col-lg">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Style</th>
+                            <th>Title</th>
+                            <th>Rarity</th>
+                            <th>Role</th>
+                            <th>Type</th>
+                            <th>Spell Affinity</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        
+ 
+            </div>
+
+<div id= "style-details" class="container-fluid"></div>
+
 </div>
 
-<div class="style-details container-fluid col"></div>
 
 <script>
 $(document).ready(function() {
@@ -41,8 +49,21 @@ $(document).ready(function() {
             "serverSide": true,
             "order": false,
             "searching": false,
+
+
+            "scrollY": "200px",
+            "scrollCollapse": true,
+            "paging": false,
+
+
+            rowReorder: {
+                selector: 'td:nth-child(2)'
+            },
+            responsive: true,
+
+
             "columns": [{
-                    data: 'StyleID'
+                    data: 'Style_ID'
                 },
                 {
                     data: 'Name'
@@ -83,7 +104,6 @@ $(document).ready(function() {
                     Type: filter_type,
                     Affinity: filter_affinity
                 }
-
             }
         });
     }
@@ -92,9 +112,9 @@ $(document).ready(function() {
     //loads style info into div
     $("#style-table").on('click', 'tr', function() {
         let table = $("#style-table").DataTable();
-        let style_id = table.row(this).data()['StyleID']; // gets the id of the style from the row
+        let style_id = table.row(this).data()['Style_ID']; // gets the id of the style from the row
 
-        $(".style-details").load("styledetails.php", {
+        $("#style-details").load("style_preview.php", {
             style_id: style_id,
         });
     });
@@ -103,6 +123,12 @@ $(document).ready(function() {
     $("#filter-clear").click(function() {
         $('#style-table').DataTable().destroy();
         fill_datatable();
+
+        // reset filter selection to 'please select'
+        $("#filter-rarity").val("none");
+        $("#filter-role").val("none");
+        $("#filter-type").val("none");
+        $("#filter-affinity").val("none");
     });
 
     // filter style table
