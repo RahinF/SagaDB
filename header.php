@@ -32,6 +32,5 @@
         <ul class="navbar-nav">
             <li><a class="nav-link" href="index.php">Styles</a></li>
             <li><a class="nav-link" href="add.php">Add</a></li>
-            <li><a class="nav-link" href="table_character.php">Characters</a></li>
         </ul>
     </nav>

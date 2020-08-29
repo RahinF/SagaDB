@@ -1,5 +1,5 @@
 <div class="container">
-    <h5>Skills</h5>
+    <h5 class="p-2 bg-primary text-white text-center">Skills</h5>
 
     <div class="row">
     

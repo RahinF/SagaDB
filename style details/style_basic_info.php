@@ -18,13 +18,13 @@ $style_description = $data['Description'];
 
 
 
-<div>
+<div class="container">
 
-    <div class="text-center bg-primary  text-white"><?= "{$style_name} [{$style_title}]" ?></div>
+    <h5 class="p-2 bg-primary text-white text-center"><?= "{$style_name} [{$style_title}]" ?></h5>
 
     <div class="row">
         <div class="col">
-            <?= $style_rarity ?>
+            <?php $image->display_image("rarity", $style_rarity, "png"); ?>
         </div>
         <div class="col">
             <?= $style_role ?>
@@ -38,4 +38,5 @@ $style_description = $data['Description'];
     </div>
 
     <div><?= $style_description ?></div>
+    
 </div>

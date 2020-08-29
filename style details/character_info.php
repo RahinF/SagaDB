@@ -14,7 +14,7 @@ $character_series = $data['Series'];
 
 
 <div class="container">
-    <h5>Character Info</h5>
+    <h5 class="p-2 bg-primary text-white text-center">Character Info</h5>
     <div><?= $character_name ?></div>
     <div><?= $character_gender ?></div>
     <div><?= $character_series ?></div>

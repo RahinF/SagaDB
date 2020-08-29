@@ -31,6 +31,13 @@ class QueryDatabase extends DatabaseConnection {
 
 
 
+
+
+
+
+
+
+
     // join two tables
     // @first_table {string} - name of the first table being joined
     // @second_table {string} - name of the second table being joined
@@ -55,6 +62,13 @@ class QueryDatabase extends DatabaseConnection {
             return $result;
         }
     }
+
+
+
+
+
+
+
 
 
 
@@ -97,6 +111,12 @@ class QueryDatabase extends DatabaseConnection {
         }
     }
 
+
+
+
+
+
+    
 
 
 

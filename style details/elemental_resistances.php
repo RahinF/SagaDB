@@ -19,8 +19,9 @@ $resistance_shadow    = $data['Shadow'];
 
 
 
-<div>
-    <h5>Elemental Resistance</h5>
+<div class = "container">
+
+    <h5 class="p-2 bg-primary text-white text-center">Elemental Resistance</h5>
 
     <div class="row">
 

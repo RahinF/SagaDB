@@ -5,16 +5,12 @@ include_once 'database_connection.php';
 <div class="container">
 
 
-        <div class="row">
+            <?php include 'filter_layout.php'?>
 
-        
-            <div class="bg-primary col">
-                <?php include 'filter_layout.php'?>
-            </div>
 
             <div>
-                <table id="style-table" class="table table-hover col col-lg">
-                    <thead class="thead-dark">
+                <table id="style-table" class="table table-hover">
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Style</th>
@@ -30,9 +26,9 @@ include_once 'database_connection.php';
             </div>
         
  
-            </div>
+ 
 
-<div id= "style-details" class="container-fluid"></div>
+    <div id="style-details"></div>
 
 </div>
 
@@ -49,6 +45,7 @@ $(document).ready(function() {
             "serverSide": true,
             "order": false,
             "searching": false,
+            "bSort": false,
 
 
             "scrollY": "200px",
@@ -155,3 +152,4 @@ $(document).ready(function() {
 
 });
 </script>
+

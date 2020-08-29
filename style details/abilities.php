@@ -1,10 +1,10 @@
-<div class="container">
 
-    <div class="col">
-        <h5 class="p-2 bg-primary text-white text-center">Abilites</h5>
-    </div>
+<div>
+    <h5 class="p-2 bg-primary text-white text-center">Abilites</h5>
 
     <div class="row">
+
+
 
 
         <?php
@@ -14,35 +14,34 @@
 
             if(!empty($data)){
                 for($i = 0; $i < count($data); $i++){
-                    
+                        
                     $ability_name         = $data[$i]['Name'];
                     $ability_description  = $data[$i]['Description'];
-
-            ?>
-
-
-
-
-        <div class="col-md m-1">
-
-            <div class="row"><?= $ability_name ?></div>
-            <div class="row"><?= $ability_description ?></div>
-
-        </div>
-
-
-
-
-        <?php
-
-            } // for loop
-        } // end if statement
 
         ?>
 
 
 
 
-    </div> <!-- row end -->
+        <div class="col-md-4">
 
-</div> <!-- container end -->
+            <h6 class="text-center border-top border-bottom pt-1 pb-1"><?= $ability_name ?></h6>
+            <p><?= $ability_description ?></p>
+
+        </div>
+
+
+
+
+            <?php
+
+                } // for loop
+            } // end if statement
+
+            ?>
+
+
+
+
+    </div>
+</div>
