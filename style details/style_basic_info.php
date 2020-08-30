@@ -20,20 +20,20 @@ $style_description = $data['Description'];
 
 <div class="container">
 
-    <h5 class="p-2 bg-primary text-white text-center"><?= "{$style_name} [{$style_title}]" ?></h5>
+    <h1 class="p-2 bg-primary text-white text-center"><?= "{$style_name} [{$style_title}]" ?></h1>
 
     <div class="row">
         <div class="col">
             <?php $image->display_image("rarity", $style_rarity, "png"); ?>
         </div>
         <div class="col">
-            <?= $style_role ?>
+            <p><?= $style_role ?></p>
         </div>
         <div class="col">
-            <?= $style_type ?>
+            <p><?= $style_type ?></p>
         </div>
         <div class="col">
-            <?= $style_affinity ?>
+            <p><?= $style_affinity ?></p>
         </div>
     </div>
 

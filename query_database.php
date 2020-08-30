@@ -116,7 +116,7 @@ class QueryDatabase extends DatabaseConnection {
 
 
 
-    
+
 
 
 

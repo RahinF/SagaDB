@@ -1,6 +1,6 @@
 <div class="container">
     <div class="col">
-        <h5 class="p-2 bg-primary text-white text-center">Inheritable Skills</h5>
+        <h2 class="p-2 bg-primary text-white text-center">Inheritable Skills</h2>
     </div>
 
 <?php

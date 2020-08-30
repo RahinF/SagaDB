@@ -11,7 +11,7 @@
             $this->image  = $image_name;
             $this->type   = $image_type;
             
-            echo "<img src= 'images/{$this->folder}/{$this->image}.{$this->type}' alt='{$this->image} {$this->folder}'>";
+            echo "<img src='images/{$this->folder}/{$this->image}.{$this->type}' alt='{$this->image} {$this->folder}'>";
         }
 
     }

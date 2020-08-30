@@ -16,7 +16,7 @@ function create_filter_list($filter){
 
 ?>
 
-<h4>filters</h4>
+<h1>filters</h1>
 <div>
     
 

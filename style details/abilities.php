@@ -1,6 +1,6 @@
 
 <div>
-    <h5 class="p-2 bg-primary text-white text-center">Abilites</h5>
+    <h2 class="p-2 bg-primary text-white text-center">Abilites</h2>
 
     <div class="row">
 
@@ -25,7 +25,7 @@
 
         <div class="col-md-4">
 
-            <h6 class="text-center border-top border-bottom pt-1 pb-1"><?= $ability_name ?></h6>
+            <h3 class="text-center border-top border-bottom pt-1 pb-1"><?= $ability_name ?></h3>
             <p><?= $ability_description ?></p>
 
         </div>

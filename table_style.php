@@ -1,7 +1,3 @@
-<?php 
-include_once 'database_connection.php';
-
-?>
 <div class="container">
 
 
